@@ -1,0 +1,149 @@
+import { useState, useEffect } from 'react';
+import { Users, TrendingUp, FileCheck, Building } from 'lucide-react';
+import { Language } from '../types';
+import { useWebsiteSettings } from '../contexts/WebsiteSettingsContext';
+import { supabase } from '../lib/supabase';
+
+interface DashboardStatsProps {
+  language: Language;
+}
+
+interface StatItem {
+  id: string;
+  title: string;
+  value: string;
+  icon: string;
+  change: string;
+  description: string;
+  color: string;
+}
+
+const DashboardStats = ({ language }: DashboardStatsProps) => {
+  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const { settings } = useWebsiteSettings();
+  const [dynamicStats, setDynamicStats] = useState({
+    works: '12',
+    schemes: '8',
+    services: '25+'
+  });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        // Fetch active development works count
+        const { count: worksCount } = await supabase
+          .from('cms_development_works')
+          .select('*', { count: 'exact', head: true })
+          .eq('status', 'In Progress');
+
+        // Fetch active schemes count
+        const { count: schemesCount } = await supabase
+          .from('cms_schemes')
+          .select('*', { count: 'exact', head: true })
+          .eq('is_active', true);
+
+        setDynamicStats({
+          works: worksCount ? worksCount.toString() : '12',
+          schemes: schemesCount ? schemesCount.toString() : '8',
+          services: '25+' // Services are usually static/hardcoded features
+        });
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+      }
+    };
+
+    fetchStats();
+  }, []);
+
+  // Population value from settings, with fallback
+  const populationValue = settings.population || '2,500+';
+
+  // Dynamic data
+  const stats: StatItem[] = [
+    {
+      id: '1',
+      title: t('Population', 'लोकसंख्या'),
+      value: populationValue,
+      icon: 'users',
+      change: '+5%',
+      description: t('Total village population', 'एकूण गावातील लोकसंख्या'),
+      color: 'blue'
+    },
+    {
+      id: '2',
+      title: t('Development Works', 'विकास कामे'),
+      value: dynamicStats.works,
+      icon: 'building',
+      change: '+2',
+      description: t('Active projects', 'सक्रिय प्रकल्प'),
+      color: 'green'
+    },
+    {
+      id: '3',
+      title: t('Services', 'सेवा'),
+      value: dynamicStats.services,
+      icon: 'file-check',
+      change: '+3',
+      description: t('Available services', 'उपलब्ध सेवा'),
+      color: 'purple'
+    },
+    {
+      id: '4',
+      title: t('Schemes', 'योजना'),
+      value: dynamicStats.schemes,
+      icon: 'trending-up',
+      change: '+1',
+      description: t('Government schemes', 'सरकारी योजना'),
+      color: 'orange'
+    }
+  ];
+
+  const getStatIcon = (iconName: string) => {
+    switch (iconName) {
+      case 'users': return <Users className="h-8 w-8" />;
+      case 'building': return <Building className="h-8 w-8" />;
+      case 'file-check': return <FileCheck className="h-8 w-8" />;
+      case 'trending-up': return <TrendingUp className="h-8 w-8" />;
+      default: return <FileCheck className="h-8 w-8" />;
+    }
+  };
+
+  const getColorClasses = (color: string) => {
+    switch (color) {
+      case 'blue': return 'bg-blue-50 text-blue-600 border-blue-200';
+      case 'green': return 'bg-green-50 text-green-600 border-green-200';
+      case 'purple': return 'bg-purple-50 text-purple-600 border-purple-200';
+      case 'orange': return 'bg-orange-50 text-orange-600 border-orange-200';
+      default: return 'bg-blue-50 text-blue-600 border-blue-200';
+    }
+  };
+
+  return (
+    <div className="mb-12">
+      <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
+        {t('Village at a Glance', 'गाव एक दृष्टीत')}
+      </h2>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
+        {stats.map((stat) => (
+          <div key={stat.id} className="bg-white rounded-xl shadow-lg p-4 sm:p-6 border-l-4 hover:shadow-xl transition-shadow h-full">
+            <div className={`inline-flex p-3 rounded-lg mb-4 ${getColorClasses(stat.color)}`}>
+              {getStatIcon(stat.icon)}
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-semibold text-gray-700 mb-1">{stat.title}</h3>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-2xl font-bold text-gray-900">{stat.value}</span>
+                <span className="text-sm text-green-600 font-medium">{stat.change}</span>
+              </div>
+              <p className="text-sm text-gray-600">{stat.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default DashboardStats;
