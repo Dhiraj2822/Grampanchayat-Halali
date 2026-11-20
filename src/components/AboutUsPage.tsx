@@ -1,6 +1,8 @@
 import { Language } from '../types';
 import { useWebsiteSettings } from '../contexts/WebsiteSettingsContext';
 import { MapPin } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { supabase } from '../lib/supabase';
 import { triText } from '../lib/i18n';
 
 interface AboutUsPageProps {
@@ -9,6 +11,30 @@ interface AboutUsPageProps {
 
 const AboutUsPage = ({ language }: AboutUsPageProps) => {
   const { settings, loading } = useWebsiteSettings();
+  const [hierarchy, setHierarchy] = useState<Array<{
+    id: string;
+    name: string;
+    name_mr?: string;
+    name_hi?: string;
+    designation: string;
+    designation_mr?: string;
+    designation_hi?: string;
+    department?: string;
+    photo_url?: string;
+  }>>([]);
+
+  useEffect(() => {
+    const fetchHierarchy = async () => {
+      const { data, error } = await supabase
+        .from('cms_government_hierarchy')
+        .select('id,name,name_mr,name_hi,designation,designation_mr,designation_hi,department,photo_url')
+        .eq('is_active', true)
+        .eq('verification_status', 'verified')
+        .order('display_order');
+      if (!error) setHierarchy(data || []);
+    };
+    fetchHierarchy();
+  }, []);
   
   const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
   
@@ -105,6 +131,40 @@ const AboutUsPage = ({ language }: AboutUsPageProps) => {
                   className="w-32 h-32 rounded-full object-cover border-4 border-green-500 shadow-lg"
                 />
               </div>
+            )}
+
+            {hierarchy.length > 0 && (
+              <section className="modern-card p-6 md:p-8">
+                <h2 className="text-3xl font-bold text-gray-800 mb-6">
+                  {t('Government & Panchayat Hierarchy', 'सरकारी आणि पंचायत पदानुक्रम', 'सरकारी और पंचायत पदानुक्रम')}
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {hierarchy.map((person) => (
+                    <article key={person.id} className="rounded-2xl border border-gray-100 p-5 text-center shadow-sm">
+                      {person.photo_url ? (
+                        <img src={person.photo_url} alt="" className="mx-auto h-24 w-24 rounded-full object-cover border-4 border-green-100" />
+                      ) : (
+                        <div className="mx-auto h-24 w-24 rounded-full bg-green-50 border-4 border-green-100" />
+                      )}
+                      <h3 className="mt-4 text-lg font-bold text-gray-900">
+                        {language === 'mr'
+                          ? (person.name_mr || person.name)
+                          : language === 'hi'
+                            ? (person.name_hi || person.name)
+                            : person.name}
+                      </h3>
+                      <p className="mt-1 text-green-700 font-semibold">
+                        {language === 'mr'
+                          ? (person.designation_mr || person.designation)
+                          : language === 'hi'
+                            ? (person.designation_hi || person.designation)
+                            : person.designation}
+                      </p>
+                      {person.department && <p className="mt-1 text-sm text-gray-600">{person.department}</p>}
+                    </article>
+                  ))}
+                </div>
+              </section>
             )}
             <div>
               {sarpanchName && (

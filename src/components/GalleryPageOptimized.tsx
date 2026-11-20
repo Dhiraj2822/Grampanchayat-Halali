@@ -15,6 +15,11 @@ interface GalleryItem {
   category?: string;
   event_date?: string;
   is_active: boolean;
+  before_image_url?: string;
+  after_image_url?: string;
+  comparison_title?: string;
+  comparison_title_mr?: string;
+  comparison_title_hi?: string;
 }
 
 interface VideoItem {
@@ -29,7 +34,7 @@ interface VideoItem {
 }
 
 const GalleryPageOptimized = ({ language }: GalleryPageProps) => {
-  const [activeTab, setActiveTab] = useState<'photos' | 'videos'>('photos');
+  const [activeTab, setActiveTab] = useState<'photos' | 'videos' | 'before-after'>('photos');
   const [photos, setPhotos] = useState<GalleryItem[]>([]);
   const [videos, setVideos] = useState<VideoItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -117,6 +122,16 @@ const GalleryPageOptimized = ({ language }: GalleryPageProps) => {
             <Play className="inline-block w-5 h-5 mr-2" />
             {t('Videos', 'व्हिडिओ')}
           </button>
+          <button
+            onClick={() => setActiveTab('before-after')}
+            className={`px-6 py-3 rounded-md font-medium transition-colors ${
+              activeTab === 'before-after'
+                ? 'bg-green-600 text-white'
+                : 'text-gray-600 hover:text-green-600'
+            }`}
+          >
+            {t('Before & After', 'आधी आणि नंतर', 'पहले और बाद')}
+          </button>
         </div>
       </div>
 
@@ -148,6 +163,45 @@ const GalleryPageOptimized = ({ language }: GalleryPageProps) => {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Before and After Tab */}
+      {activeTab === 'before-after' && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {photos.filter((photo) => photo.before_image_url || photo.after_image_url).length === 0 ? (
+            <div className="md:col-span-2 text-center py-12 text-gray-600">
+              {t('No before-and-after comparisons available.', 'आधी आणि नंतरची तुलना उपलब्ध नाही.', 'पहले और बाद की तुलना उपलब्ध नहीं है.')}
+            </div>
+          ) : (
+            photos
+              .filter((photo) => photo.before_image_url || photo.after_image_url)
+              .map((photo) => (
+                <article key={photo.id} className="modern-card overflow-hidden">
+                  <h3 className="p-4 font-bold text-gray-900">
+                    {language === 'mr'
+                      ? (photo.comparison_title_mr || photo.comparison_title || photo.title)
+                      : language === 'hi'
+                        ? (photo.comparison_title_hi || photo.comparison_title || photo.title)
+                        : (photo.comparison_title || photo.title)}
+                  </h3>
+                  <div className="grid grid-cols-2">
+                    <figure>
+                      {photo.before_image_url && <img src={photo.before_image_url} alt="Before" className="h-64 w-full object-cover" />}
+                      <figcaption className="p-2 text-center text-sm font-semibold text-gray-600">
+                        {t('Before', 'आधी', 'पहले')}
+                      </figcaption>
+                    </figure>
+                    <figure>
+                      {photo.after_image_url && <img src={photo.after_image_url} alt="After" className="h-64 w-full object-cover" />}
+                      <figcaption className="p-2 text-center text-sm font-semibold text-gray-600">
+                        {t('After', 'नंतर', 'बाद')}
+                      </figcaption>
+                    </figure>
+                  </div>
+                </article>
+              ))
+          )}
         </div>
       )}
 

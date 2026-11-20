@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AlertCircle, CheckCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
@@ -23,6 +23,12 @@ const GrievancePage = ({ language }: GrievancePageProps) => {
     updated_at: string;
   } | null>(null);
   const [trackingError, setTrackingError] = useState('');
+  const [resolutionReport, setResolutionReport] = useState<{
+    total_grievances: number;
+    resolved_grievances: number;
+    open_grievances: number;
+    resolution_percent: number;
+  } | null>(null);
   const [formData, setFormData] = useState({
     complainant_name: '',
     mobile: '',
@@ -34,6 +40,13 @@ const GrievancePage = ({ language }: GrievancePageProps) => {
   });
 
   const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
+  useEffect(() => {
+    const fetchResolutionReport = async () => {
+      const { data, error } = await supabase.rpc('grievance_resolution_report');
+      if (!error && data && data.length > 0) setResolutionReport(data[0]);
+    };
+    fetchResolutionReport();
+  }, []);
 
   const categories = [
     { en: 'Water Supply', mr: 'पाणीपुरवठा' },
@@ -165,6 +178,27 @@ const GrievancePage = ({ language }: GrievancePageProps) => {
           )}
         </p>
       </div>
+
+      {resolutionReport && (
+        <section className="modern-card p-6 mb-6" aria-labelledby="grievance-report-heading">
+          <h2 id="grievance-report-heading" className="text-xl font-bold text-gray-900 mb-4">
+            {t('Monthly Grievance Report', 'तक्रार मासिक अहवाल', 'शिकायत मासिक रिपोर्ट')}
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              [t('Total', 'एकूण', 'कुल'), resolutionReport.total_grievances],
+              [t('Resolved', 'निराकरण झाले', 'निराकृत'), resolutionReport.resolved_grievances],
+              [t('Open', 'प्रलंबित', 'खुली'), resolutionReport.open_grievances],
+              [t('Resolution', 'निराकरण', 'निराकरण'), `${resolutionReport.resolution_percent}%`],
+            ].map(([label, value]) => (
+              <div key={String(label)} className="rounded-xl bg-green-50 p-4 text-center border border-green-100">
+                <p className="text-2xl font-bold text-green-700">{value}</p>
+                <p className="text-sm text-gray-600 mt-1">{label}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Info Alert */}
       <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded">

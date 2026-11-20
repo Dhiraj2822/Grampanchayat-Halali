@@ -25,12 +25,29 @@ const BudgetPage = ({ language }: BudgetPageProps) => {
   const [documents, setDocuments] = useState<BudgetDocument[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedType, setSelectedType] = useState<string>('all');
+  const [budgetBreakdown, setBudgetBreakdown] = useState<Array<{
+    category: string;
+    head_name: string;
+    head_name_mr?: string;
+    budgeted_amount: number;
+    spent_amount: number;
+  }>>([]);
 
   const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   useEffect(() => {
     fetchDocuments();
+    fetchBudgetBreakdown();
   }, []);
+
+  const fetchBudgetBreakdown = async () => {
+    const { data, error } = await supabase
+      .from('cms_budget_items')
+      .select('category,head_name,head_name_mr,budgeted_amount,spent_amount')
+      .eq('is_active', true)
+      .order('display_order');
+    if (!error) setBudgetBreakdown(data || []);
+  };
 
   const fetchDocuments = async () => {
     try {
@@ -114,6 +131,38 @@ const BudgetPage = ({ language }: BudgetPageProps) => {
             ))}
           </div>
         </div>
+
+        {budgetBreakdown.length > 0 && (
+          <section className="bg-white rounded-lg shadow-md p-6 mb-6" aria-labelledby="budget-breakdown-heading">
+            <h2 id="budget-breakdown-heading" className="text-lg font-bold text-gray-800 mb-5">
+              {t('Budget Category Breakdown', 'अर्थसंकल्प श्रेणी तपशील', 'बजट श्रेणी विवरण')}
+            </h2>
+            <div className="space-y-4">
+              {budgetBreakdown.map((item, index) => {
+                const budgeted = Number(item.budgeted_amount || 0);
+                const spent = Number(item.spent_amount || 0);
+                const percentage = budgeted > 0 ? Math.min((spent / budgeted) * 100, 100) : 0;
+                return (
+                  <div key={`${item.category}-${item.head_name}-${index}`}>
+                    <div className="flex flex-wrap justify-between gap-2 text-sm mb-2">
+                      <span className="font-semibold text-gray-800">
+                        {language === 'mr'
+                          ? (item.head_name_mr || item.head_name)
+                          : item.head_name}
+                      </span>
+                      <span className="text-gray-600">
+                        {formatAmount(spent)} / {formatAmount(budgeted)}
+                      </span>
+                    </div>
+                    <div className="h-3 rounded-full bg-gray-100 overflow-hidden">
+                      <div className="h-full bg-indigo-600" style={{ width: `${percentage}%` }} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
         {filteredDocuments.length > 0 && (
           <div className="bg-white rounded-lg shadow-md p-6 mb-6">

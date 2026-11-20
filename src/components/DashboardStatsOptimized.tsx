@@ -54,6 +54,19 @@ const DashboardStats = ({ language }: DashboardStatsProps) => {
   });
   const [progressMetrics, setProgressMetrics] = useState<ProgressMetric[]>([]);
   const [achievements, setAchievements] = useState<Achievement[]>([]);
+  const [wards, setWards] = useState<Array<{
+    id: string;
+    ward_number: number;
+    ward_name?: string;
+    ward_name_mr?: string;
+    ward_name_hi?: string;
+    population?: number;
+    households?: number;
+    sanitation_percent?: number;
+    tap_water_percent?: number;
+    electricity_percent?: number;
+    fund_utilization_percent?: number;
+  }>>([]);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -88,6 +101,13 @@ const DashboardStats = ({ language }: DashboardStatsProps) => {
             .eq('is_active', true)
             .order('display_order')
         ]);
+
+        const wardsResponse = await supabase
+          .from('cms_village_wards')
+          .select('*')
+          .eq('is_active', true)
+          .order('ward_number');
+        if (!wardsResponse.error) setWards(wardsResponse.data || []);
 
         if (!metricsResponse.error) setProgressMetrics(metricsResponse.data || []);
         if (!achievementsResponse.error) setAchievements(achievementsResponse.data || []);
@@ -251,6 +271,60 @@ const DashboardStats = ({ language }: DashboardStatsProps) => {
                   )}
                   <h3 className="text-lg font-bold text-gray-800 mt-1">{title}</h3>
                   {description && <p className="text-sm text-gray-600 mt-2">{description}</p>}
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {wards.length > 0 && (
+        <section className="mt-10" aria-labelledby="ward-progress-heading">
+          <h2 id="ward-progress-heading" className="text-2xl font-bold text-center mb-6 text-gray-800">
+            {t('Ward-wise Progress', 'प्रभागनिहाय प्रगती', 'वार्ड-वार प्रगति')}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            {wards.map((ward) => {
+              const wardName = language === 'mr'
+                ? (ward.ward_name_mr || ward.ward_name)
+                : language === 'hi'
+                  ? (ward.ward_name_hi || ward.ward_name)
+                  : ward.ward_name;
+              const values = [
+                ['Sanitation', 'स्वच्छता', 'स्वच्छता', ward.sanitation_percent],
+                ['Tap Water', 'नळ पाणी', 'नल जल', ward.tap_water_percent],
+                ['Electricity', 'वीजपुरवठा', 'बिजली', ward.electricity_percent],
+                ['Fund Utilization', 'निधी वापर', 'निधि उपयोग', ward.fund_utilization_percent],
+              ] as Array<[string, string, string, number | undefined]>;
+              return (
+                <article key={ward.id} className="bg-white rounded-xl shadow p-5 border border-gray-100">
+                  <h3 className="font-bold text-gray-900">
+                    {t('Ward', 'प्रभाग', 'वार्ड')} {ward.ward_number}
+                    {wardName ? ` - ${wardName}` : ''}
+                  </h3>
+                  {ward.population != null && (
+                    <p className="text-sm text-gray-600 mt-1">
+                      {t('Population', 'लोकसंख्या', 'जनसंख्या')}: {ward.population}
+                    </p>
+                  )}
+                  <div className="mt-4 space-y-3">
+                    {values.map(([english, marathi, hindi, value]) => (
+                      <div key={english}>
+                        <div className="flex justify-between text-xs text-gray-600 mb-1">
+                          <span>{language === 'mr' ? marathi : language === 'hi' ? hindi : english}</span>
+                          <span>{value == null ? t('N/A', 'उपलब्ध नाही', 'उपलब्ध नहीं') : `${value}%`}</span>
+                        </div>
+                        {value != null && (
+                          <div className="h-2 rounded-full bg-gray-100 overflow-hidden">
+                            <div
+                              className="h-full bg-green-600"
+                              style={{ width: `${Math.min(Math.max(value, 0), 100)}%` }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </article>
               );
             })}

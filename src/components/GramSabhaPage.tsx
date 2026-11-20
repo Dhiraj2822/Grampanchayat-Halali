@@ -25,6 +25,16 @@ interface GramSabhaPageProps {
 
 const GramSabhaPage = ({ language }: GramSabhaPageProps) => {
   const [meetings, setMeetings] = useState<GramSabhaMeeting[]>([]);
+  const [events, setEvents] = useState<Array<{
+    id: string;
+    title: string;
+    title_mr?: string;
+    title_hi?: string;
+    event_date: string;
+    event_time?: string;
+    location?: string;
+    event_type: string;
+  }>>([]);
   const [loading, setLoading] = useState(true);
   const [selectedYear, setSelectedYear] = useState<string>('all');
 
@@ -32,7 +42,18 @@ const GramSabhaPage = ({ language }: GramSabhaPageProps) => {
 
   useEffect(() => {
     fetchMeetings();
+    fetchEvents();
   }, []);
+
+  const fetchEvents = async () => {
+    const { data, error } = await supabase
+      .from('cms_events')
+      .select('id,title,title_mr,title_hi,event_date,event_time,location,event_type')
+      .eq('is_active', true)
+      .gte('event_date', new Date().toISOString().slice(0, 10))
+      .order('event_date');
+    if (!error) setEvents(data || []);
+  };
 
   const fetchMeetings = async () => {
     try {
@@ -100,6 +121,37 @@ const GramSabhaPage = ({ language }: GramSabhaPageProps) => {
             )}
           </p>
         </div>
+
+        {events.length > 0 && (
+          <section className="modern-card p-6 mb-8" aria-labelledby="events-heading">
+            <h2 id="events-heading" className="text-xl font-bold text-gray-900 mb-4">
+              {t('Upcoming Meetings & Events', 'आगामी सभा आणि कार्यक्रम', 'आगामी बैठक और कार्यक्रम')}
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {events.map((event) => (
+                <article key={event.id} className="rounded-xl border border-purple-100 bg-purple-50/40 p-4">
+                  <div className="flex items-center gap-2 text-purple-700 font-semibold">
+                    <Calendar size={18} />
+                    {new Date(`${event.event_date}T00:00:00`).toLocaleDateString('en-IN', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric',
+                    })}
+                    {event.event_time && <span className="text-sm text-gray-600">{event.event_time}</span>}
+                  </div>
+                  <h3 className="mt-2 font-bold text-gray-900">
+                    {language === 'mr'
+                      ? (event.title_mr || event.title)
+                      : language === 'hi'
+                        ? (event.title_hi || event.title)
+                        : event.title}
+                  </h3>
+                  {event.location && <p className="mt-1 text-sm text-gray-600">{event.location}</p>}
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* Year Filter */}
         {years.length > 1 && (

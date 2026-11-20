@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
-import { Settings, Users, FileText, Image, Award, Building, Newspaper, Archive, Save, Plus, Edit, Trash, Video, X, Layout, Shield, Phone, Wallet, MapPin } from 'lucide-react';
+import { Settings, Users, FileText, Image, Award, Building, Newspaper, Archive, Save, Plus, Edit, Trash, Video, X, Layout, Shield, Phone, Wallet, MapPin, Calendar } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 
@@ -97,6 +97,11 @@ const tableFields: Record<string, { name: string; type: string; required?: boole
     { name: 'category', type: 'text' },
     { name: 'event_date', type: 'date' },
     { name: 'is_active', type: 'boolean' },
+    { name: 'before_image_url', type: 'image_upload' },
+    { name: 'after_image_url', type: 'image_upload' },
+    { name: 'comparison_title', type: 'text' },
+    { name: 'comparison_title_mr', type: 'text' },
+    { name: 'comparison_title_hi', type: 'text' },
   ],
   'cms_carousel': [
     { name: 'slide_order', type: 'number', required: true },
@@ -186,6 +191,47 @@ const tableFields: Record<string, { name: string; type: string; required?: boole
     { name: 'display_order', type: 'number' },
     { name: 'is_active', type: 'boolean' },
   ],
+  'cms_government_hierarchy': [
+    { name: 'level', type: 'text', required: true },
+    { name: 'name', type: 'text', required: true },
+    { name: 'name_mr', type: 'text' },
+    { name: 'name_hi', type: 'text' },
+    { name: 'designation', type: 'text', required: true },
+    { name: 'designation_mr', type: 'text' },
+    { name: 'designation_hi', type: 'text' },
+    { name: 'department', type: 'text' },
+    { name: 'photo_url', type: 'image_upload' },
+    { name: 'verification_status', type: 'select', options: ['pending', 'verified', 'archived'] },
+    { name: 'display_order', type: 'number' },
+    { name: 'is_active', type: 'boolean' },
+  ],
+  'cms_events': [
+    { name: 'title', type: 'text', required: true },
+    { name: 'title_mr', type: 'text' },
+    { name: 'title_hi', type: 'text' },
+    { name: 'description', type: 'textarea' },
+    { name: 'event_date', type: 'date', required: true },
+    { name: 'event_time', type: 'text' },
+    { name: 'location', type: 'text' },
+    { name: 'event_type', type: 'select', options: ['gram_sabha', 'meeting', 'camp', 'election', 'festival', 'notice', 'other'] },
+    { name: 'document_url', type: 'file' },
+    { name: 'display_order', type: 'number' },
+    { name: 'is_active', type: 'boolean' },
+  ],
+  'cms_village_wards': [
+    { name: 'ward_number', type: 'number', required: true },
+    { name: 'ward_name', type: 'text' },
+    { name: 'ward_name_mr', type: 'text' },
+    { name: 'ward_name_hi', type: 'text' },
+    { name: 'population', type: 'number' },
+    { name: 'households', type: 'number' },
+    { name: 'sanitation_percent', type: 'number' },
+    { name: 'tap_water_percent', type: 'number' },
+    { name: 'electricity_percent', type: 'number' },
+    { name: 'fund_utilization_percent', type: 'number' },
+    { name: 'display_order', type: 'number' },
+    { name: 'is_active', type: 'boolean' },
+  ],
   'cms_community_entries': [
     { name: 'section', type: 'select', required: true, options: ['culture', 'employment', 'education', 'environment', 'volunteer'] },
     { name: 'title', type: 'text', required: true },
@@ -259,6 +305,9 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
   const [achievements, setAchievements] = useState<any[]>([]);
   const [infrastructureFacilities, setInfrastructureFacilities] = useState<any[]>([]);
   const [communityEntries, setCommunityEntries] = useState<any[]>([]);
+  const [governmentHierarchy, setGovernmentHierarchy] = useState<any[]>([]);
+  const [events, setEvents] = useState<any[]>([]);
+  const [wards, setWards] = useState<any[]>([]);
 
   const [editingItem, setEditingItem] = useState<any>(null);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -355,6 +404,15 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
           break;
         case 'community':
           await loadCommunityEntries();
+          break;
+        case 'government-hierarchy':
+          await loadGovernmentHierarchy();
+          break;
+        case 'events':
+          await loadEvents();
+          break;
+        case 'wards':
+          await loadWards();
           break;
       }
     } catch (error) {
@@ -528,6 +586,30 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
       .order('section')
       .order('display_order');
     if (!error && data) setCommunityEntries(data);
+  };
+
+  const loadGovernmentHierarchy = async () => {
+    const { data, error } = await supabase
+      .from('cms_government_hierarchy')
+      .select('*')
+      .order('display_order');
+    if (!error && data) setGovernmentHierarchy(data);
+  };
+
+  const loadEvents = async () => {
+    const { data, error } = await supabase
+      .from('cms_events')
+      .select('*')
+      .order('event_date', { ascending: false });
+    if (!error && data) setEvents(data);
+  };
+
+  const loadWards = async () => {
+    const { data, error } = await supabase
+      .from('cms_village_wards')
+      .select('*')
+      .order('ward_number');
+    if (!error && data) setWards(data);
   };
 
   const loadForms = async () => {
@@ -1997,6 +2079,9 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
                     { id: 'village-achievements', name: 'Top Achievements', icon: Award },
                     { id: 'infrastructure', name: 'Infrastructure & Facilities', icon: MapPin },
                     { id: 'community', name: 'Community Information', icon: Users },
+                    { id: 'government-hierarchy', name: 'Government Hierarchy', icon: Users },
+                    { id: 'events', name: 'Meetings & Events Calendar', icon: Calendar },
+                    { id: 'wards', name: 'Ward-wise Progress', icon: MapPin },
                   ].map((item) => {
                     const Icon = item.icon;
                     return (
@@ -2046,6 +2131,9 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
                 {activeSection === 'village-achievements' && renderDataTable(achievements, ['title', 'year', 'display_order', 'is_active'], 'cms_village_achievements')}
                 {activeSection === 'infrastructure' && renderDataTable(infrastructureFacilities, ['facility_name', 'category', 'phone', 'status', 'display_order', 'is_active'], 'cms_infrastructure_facilities')}
                 {activeSection === 'community' && renderDataTable(communityEntries, ['section', 'title', 'category', 'phone', 'display_order', 'is_active'], 'cms_community_entries')}
+                {activeSection === 'government-hierarchy' && renderDataTable(governmentHierarchy, ['level', 'name', 'designation', 'department', 'verification_status', 'display_order', 'is_active'], 'cms_government_hierarchy')}
+                {activeSection === 'events' && renderDataTable(events, ['title', 'event_date', 'event_time', 'location', 'event_type', 'is_active'], 'cms_events')}
+                {activeSection === 'wards' && renderDataTable(wards, ['ward_number', 'ward_name', 'population', 'households', 'sanitation_percent', 'tap_water_percent', 'electricity_percent', 'fund_utilization_percent', 'is_active'], 'cms_village_wards')}
               </div>
             )}
           </div>

@@ -309,6 +309,30 @@ function App() {
   }, [language]);
 
   useEffect(() => {
+    const existing = document.getElementById('government-structured-data');
+    if (existing) existing.remove();
+
+    const script = document.createElement('script');
+    script.id = 'government-structured-data';
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'GovernmentOrganization',
+      name: `Gram Panchayat ${settings.village_name || 'Village'}`,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: settings.village_name || '',
+        addressRegion: settings.district || 'Maharashtra',
+        addressCountry: 'IN',
+        postalCode: settings.pincode || undefined,
+      },
+      telephone: settings.phone_number || undefined,
+      email: settings.email || undefined,
+    });
+    document.head.appendChild(script);
+  }, [settings]);
+
+  useEffect(() => {
     localStorage.setItem('gp-language', language);
   }, [language]);
 
@@ -393,6 +417,36 @@ function App() {
     return (
       <>
         <HeroCarousel language={language} onNavigate={updatePage} />
+        <div className="max-w-7xl mx-auto px-4 pt-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <article className="modern-card p-5 md:col-span-1">
+              <p className="text-sm font-semibold text-sky-700">
+                {language === 'mr' ? 'आजचे हवामान' : language === 'hi' ? 'आज का मौसम' : 'Live Weather'}
+              </p>
+              <p className="mt-2 text-gray-700">
+                {language === 'mr'
+                  ? 'Google वर गावाचे सध्याचे हवामान पहा.'
+                  : language === 'hi'
+                    ? 'Google पर गांव का वर्तमान मौसम देखें.'
+                    : 'Check current weather for the village on Google.'}
+              </p>
+              {settings.latitude && settings.longitude ? (
+                <a
+                  href={`https://www.google.com/search?q=weather+${settings.latitude},${settings.longitude}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="modern-primary-button mt-4 w-full"
+                >
+                  {language === 'mr' ? 'हवामान पहा' : language === 'hi' ? 'मौसम देखें' : 'View Weather'}
+                </a>
+              ) : (
+                <span className="mt-4 block text-sm text-gray-500">
+                  {language === 'mr' ? 'स्थान अद्याप कॉन्फिगर केलेले नाही.' : language === 'hi' ? 'स्थान अभी कॉन्फ़िगर नहीं है.' : 'Village location is not configured.'}
+                </span>
+              )}
+            </article>
+          </div>
+        </div>
         <div className="max-w-7xl mx-auto px-4 py-8">
           {/* Quick Access Dashboard for logged in users */}
           {user && (
