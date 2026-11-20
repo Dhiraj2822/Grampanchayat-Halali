@@ -24,17 +24,23 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
   const { settings } = useWebsiteSettings();
 
   // Get village name based on language
-  const villageName = language === 'mr' 
+  const villageName = language === 'mr'
     ? (settings.village_name_mr || settings.village_name || 'गाव')
-    : (settings.village_name || 'Village');
+    : language === 'hi'
+      ? (settings.village_name_hi || settings.village_name || 'ग्राम पंचायत')
+      : (settings.village_name || 'Village');
   
   const districtName = language === 'mr'
     ? (settings.district_mr || settings.district || 'जिल्हा')
-    : (settings.district || 'District');
+    : language === 'hi'
+      ? (settings.district_hi || settings.district || 'जिला')
+      : (settings.district || 'District');
     
   const talukaName = language === 'mr'
     ? (settings.taluka_mr || settings.taluka || 'तालुका')
-    : (settings.taluka || 'Taluka');
+    : language === 'hi'
+      ? (settings.taluka_hi || settings.taluka || 'तहसील')
+      : (settings.taluka || 'Taluka');
 
   // Close user menu when clicking outside
   useEffect(() => {
@@ -56,7 +62,8 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
     }
   };
 
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) =>
+    language === 'mr' ? mr : language === 'hi' ? (hi || en) : en;
 
   const isDesktopViewport = () => window.matchMedia('(min-width: 768px)').matches;
 
@@ -199,11 +206,11 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
               </button>
             </form>
             <button
-              onClick={() => onLanguageChange(language === 'en' ? 'mr' : 'en')}
+              onClick={() => onLanguageChange(language === 'en' ? 'mr' : language === 'mr' ? 'hi' : 'en')}
               className="flex items-center gap-1 px-3 py-1 bg-white/10 hover:bg-white/20 rounded transition"
             >
               <Globe size={16} />
-              <span>{language === 'en' ? 'English' : 'मराठी'}</span>
+              <span>{language === 'en' ? 'English' : language === 'mr' ? 'मराठी' : 'हिंदी'}</span>
             </button>
             
             {user ? (

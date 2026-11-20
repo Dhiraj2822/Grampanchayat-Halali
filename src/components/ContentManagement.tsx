@@ -988,6 +988,18 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
             />
           </div>
           <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Village Name (हिंदी)</label>
+            <input
+              type="text"
+              value={websiteSettings.BASIC_INFO?.village_name_hi || ''}
+              onChange={(e) => setWebsiteSettings({
+                ...websiteSettings,
+                BASIC_INFO: { ...websiteSettings.BASIC_INFO, village_name_hi: e.target.value }
+              })}
+              className="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            />
+          </div>
+          <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">District (English)</label>
             <input
               type="text"
@@ -1012,6 +1024,18 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
             />
           </div>
           <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">District (हिंदी)</label>
+            <input
+              type="text"
+              value={websiteSettings.BASIC_INFO?.district_hi || ''}
+              onChange={(e) => setWebsiteSettings({
+                ...websiteSettings,
+                BASIC_INFO: { ...websiteSettings.BASIC_INFO, district_hi: e.target.value }
+              })}
+              className="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            />
+          </div>
+          <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Taluka (English)</label>
             <input
               type="text"
@@ -1031,6 +1055,18 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
               onChange={(e) => setWebsiteSettings({
                 ...websiteSettings,
                 BASIC_INFO: { ...websiteSettings.BASIC_INFO, taluka_mr: e.target.value }
+              })}
+              className="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Taluka (हिंदी)</label>
+            <input
+              type="text"
+              value={websiteSettings.BASIC_INFO?.taluka_hi || ''}
+              onChange={(e) => setWebsiteSettings({
+                ...websiteSettings,
+                BASIC_INFO: { ...websiteSettings.BASIC_INFO, taluka_hi: e.target.value }
               })}
               className="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
             />
@@ -1556,6 +1592,18 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
                 onChange={(e) => setWebsiteSettings({
                   ...websiteSettings,
                   ABOUT_US: { ...websiteSettings.ABOUT_US, sarpanch_name_mr: e.target.value }
+                })}
+                className="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Sarpanch Name (हिंदी)</label>
+              <input
+                type="text"
+                value={websiteSettings.ABOUT_US?.sarpanch_name_hi || ''}
+                onChange={(e) => setWebsiteSettings({
+                  ...websiteSettings,
+                  ABOUT_US: { ...websiteSettings.ABOUT_US, sarpanch_name_hi: e.target.value }
                 })}
                 className="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
               />

@@ -266,7 +266,7 @@ function App() {
   // Update HTML lang attribute and dir when language changes
   useEffect(() => {
     const htmlElement = document.documentElement;
-    htmlElement.lang = language === 'mr' ? 'mr' : 'en';
+    htmlElement.lang = language;
     htmlElement.dir = language === 'mr' ? 'ltr' : 'ltr'; // Marathi uses left-to-right
     htmlElement.setAttribute('data-language', language);
     
@@ -284,10 +284,14 @@ function App() {
   useEffect(() => {
     const villageName = language === 'mr'
       ? (settings.village_name_mr || settings.village_name || 'ग्रामपंचायत')
-      : (settings.village_name || 'Gram Panchayat');
+      : language === 'hi'
+        ? (settings.village_name_hi || settings.village_name || 'ग्राम पंचायत')
+        : (settings.village_name || 'Gram Panchayat');
     const districtName = language === 'mr'
       ? (settings.district_mr || settings.district || '')
-      : (settings.district || '');
+      : language === 'hi'
+        ? (settings.district_hi || settings.district || '')
+        : (settings.district || '');
     const suffix = districtName ? `, ${districtName}` : '';
     document.title = `${villageName}${suffix} | Government of Maharashtra`;
 
@@ -296,9 +300,19 @@ function App() {
       'content',
       language === 'mr'
         ? `${villageName}${suffix} ची अधिकृत वेबसाइट. नागरिक सेवा, योजना, विकासकामे आणि ग्रामपंचायत माहिती.`
-        : `Official website of ${villageName}${suffix} with citizen services, schemes, development works, notices, and transparent local governance.`
+        : language === 'hi'
+          ? `${villageName}${suffix} की आधिकारिक वेबसाइट। नागरिक सेवाएं, योजनाएं, विकास कार्य और ग्राम पंचायत की जानकारी।`
+          : `Official website of ${villageName}${suffix} with citizen services, schemes, development works, notices, and transparent local governance.`
     );
-  }, [language, settings.district, settings.district_mr, settings.village_name, settings.village_name_mr]);
+  }, [
+    language,
+    settings.district,
+    settings.district_mr,
+    settings.district_hi,
+    settings.village_name,
+    settings.village_name_mr,
+    settings.village_name_hi
+  ]);
 
   // Send users to the dashboard appropriate for their role after authentication.
   useEffect(() => {

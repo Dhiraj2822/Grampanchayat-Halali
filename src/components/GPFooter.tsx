@@ -8,17 +8,22 @@ interface GPFooterProps {
 }
 
 const GPFooter = ({ language, onNavigate }: GPFooterProps) => {
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) =>
+    language === 'mr' ? mr : language === 'hi' ? (hi || en) : en;
   const { settings } = useWebsiteSettings();
 
   // Get dynamic values
-  const villageName = language === 'mr' 
+  const villageName = language === 'mr'
     ? (settings.village_name_mr || settings.village_name || 'गाव')
-    : (settings.village_name || 'Village');
+    : language === 'hi'
+      ? (settings.village_name_hi || settings.village_name || 'ग्राम पंचायत')
+      : (settings.village_name || 'Village');
   
   const districtName = language === 'mr'
     ? (settings.district_mr || settings.district || 'जिल्हा')
-    : (settings.district || 'District');
+    : language === 'hi'
+      ? (settings.district_hi || settings.district || 'जिला')
+      : (settings.district || 'District');
 
   const officeAddress = language === 'mr'
     ? (settings.office_address_mr || settings.office_address || '')

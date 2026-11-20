@@ -12,17 +12,24 @@ const AboutUsPage = ({ language }: AboutUsPageProps) => {
   const t = (en: string, mr: string) => language === 'mr' ? mr : en;
   
   // Helper to get setting value with language
-  const getSetting = (enKey: keyof typeof settings, mrKey?: keyof typeof settings) => {
+  const getSetting = (
+    enKey: keyof typeof settings,
+    mrKey?: keyof typeof settings,
+    hiKey?: keyof typeof settings
+  ) => {
     if (language === 'mr' && mrKey && settings[mrKey]) {
       return settings[mrKey];
+    }
+    if (language === 'hi' && hiKey && settings[hiKey]) {
+      return settings[hiKey];
     }
     return settings[enKey] || '';
   };
 
-  const villageName = getSetting('village_name', 'village_name_mr');
-  const district = getSetting('district', 'district_mr');
-  const taluka = getSetting('taluka', 'taluka_mr');
-  const state = getSetting('state', 'state_mr');
+  const villageName = getSetting('village_name', 'village_name_mr', 'village_name_hi');
+  const district = getSetting('district', 'district_mr', 'district_hi');
+  const taluka = getSetting('taluka', 'taluka_mr', 'taluka_hi');
+  const state = getSetting('state', 'state_mr', 'state_hi');
   const pincode = settings.pincode;
   const population = settings.population;
   const areaSqKm = settings.area_sqkm;
@@ -30,12 +37,12 @@ const AboutUsPage = ({ language }: AboutUsPageProps) => {
   const longitude = settings.longitude;
 
   // About Us content
-  const history = getSetting('about_history', 'about_history_mr');
-  const geography = getSetting('about_geography', 'about_geography_mr');
-  const culture = getSetting('about_culture', 'about_culture_mr');
-  const economy = getSetting('about_economy', 'about_economy_mr');
-  const sarpanchName = getSetting('sarpanch_name', 'sarpanch_name_mr');
-  const sarpanchMessage = getSetting('sarpanch_message', 'sarpanch_message_mr');
+  const history = getSetting('about_history', 'about_history_mr', 'about_history_hi');
+  const geography = getSetting('about_geography', 'about_geography_mr', 'about_geography_hi');
+  const culture = getSetting('about_culture', 'about_culture_mr', 'about_culture_hi');
+  const economy = getSetting('about_economy', 'about_economy_mr', 'about_economy_hi');
+  const sarpanchName = getSetting('sarpanch_name', 'sarpanch_name_mr', 'sarpanch_name_hi');
+  const sarpanchMessage = getSetting('sarpanch_message', 'sarpanch_message_mr', 'sarpanch_message_hi');
   const sarpanchPhoto = settings.sarpanch_photo_url;
 
   if (loading) {

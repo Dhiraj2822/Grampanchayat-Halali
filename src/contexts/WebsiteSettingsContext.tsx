@@ -6,12 +6,16 @@ interface WebsiteSettings {
   // Basic Info
   village_name: string;
   village_name_mr: string;
+  village_name_hi: string;
   district: string;
   district_mr: string;
+  district_hi: string;
   taluka: string;
   taluka_mr: string;
+  taluka_hi: string;
   state: string;
   state_mr: string;
+  state_hi: string;
   pincode: string;
   population: string;
   male_population: string;
@@ -26,10 +30,12 @@ interface WebsiteSettings {
   // Contact
   office_address: string;
   office_address_mr: string;
+  office_address_hi: string;
   phone_number: string;
   email: string;
   office_hours: string;
   office_hours_mr: string;
+  office_hours_hi: string;
   
   // Social Media
   facebook_url: string;
@@ -40,8 +46,10 @@ interface WebsiteSettings {
   // Appearance
   hero_title: string;
   hero_title_mr: string;
+  hero_title_hi: string;
   hero_subtitle: string;
   hero_subtitle_mr: string;
+  hero_subtitle_hi: string;
   primary_color: string;
   secondary_color: string;
   accent_color: string;
@@ -49,16 +57,22 @@ interface WebsiteSettings {
   // About Us
   about_history: string;
   about_history_mr: string;
+  about_history_hi: string;
   about_geography: string;
   about_geography_mr: string;
+  about_geography_hi: string;
   about_culture: string;
   about_culture_mr: string;
+  about_culture_hi: string;
   about_economy: string;
   about_economy_mr: string;
+  about_economy_hi: string;
   sarpanch_name: string;
   sarpanch_name_mr: string;
+  sarpanch_name_hi: string;
   sarpanch_message: string;
   sarpanch_message_mr: string;
+  sarpanch_message_hi: string;
   sarpanch_photo_url: string;
 }
 
@@ -71,12 +85,16 @@ interface WebsiteSettingsContextType {
 const defaultSettings: WebsiteSettings = {
   village_name: 'Hallali(A)',
   village_name_mr: 'हल्लाळी (A)',
+  village_name_hi: 'हल्लाली (A)',
   district: 'District',
   district_mr: 'जिल्हा',
+  district_hi: 'जिला',
   taluka: 'Taluka',
   taluka_mr: 'तालुका',
+  taluka_hi: 'तहसील',
   state: 'Maharashtra',
   state_mr: 'महाराष्ट्र',
+  state_hi: 'महाराष्ट्र',
   pincode: '',
   population: '',
   male_population: '',
@@ -87,33 +105,43 @@ const defaultSettings: WebsiteSettings = {
   longitude: '',
   office_address: '',
   office_address_mr: '',
+  office_address_hi: '',
   phone_number: '',
   email: '',
   office_hours: '',
   office_hours_mr: '',
+  office_hours_hi: '',
   facebook_url: '',
   twitter_url: '',
   youtube_url: '',
   instagram_url: '',
   hero_title: 'Welcome to Digital Hallali(A)',
   hero_title_mr: 'डिजिटल हल्लाळी (A) मध्ये आपले स्वागत',
+  hero_title_hi: 'डिजिटल हल्लाली (A) में आपका स्वागत है',
   hero_subtitle: 'Your Gateway to Village Services',
   hero_subtitle_mr: 'गाव सेवांचे प्रवेशद्वार',
+  hero_subtitle_hi: 'गांव सेवाओं का प्रवेश द्वार',
   primary_color: '#16a34a',
   secondary_color: '#15803d',
   accent_color: '#14532d',
   about_history: '',
   about_history_mr: '',
+  about_history_hi: '',
   about_geography: '',
   about_geography_mr: '',
+  about_geography_hi: '',
   about_culture: '',
   about_culture_mr: '',
+  about_culture_hi: '',
   about_economy: '',
   about_economy_mr: '',
+  about_economy_hi: '',
   sarpanch_name: '',
   sarpanch_name_mr: '',
+  sarpanch_name_hi: '',
   sarpanch_message: '',
   sarpanch_message_mr: '',
+  sarpanch_message_hi: '',
   sarpanch_photo_url: '',
 };
 
