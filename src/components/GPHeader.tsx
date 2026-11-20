@@ -205,13 +205,23 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
                 <Search size={16} />
               </button>
             </form>
-            <button
-              onClick={() => onLanguageChange(language === 'en' ? 'mr' : language === 'mr' ? 'hi' : 'en')}
-              className="flex items-center gap-1 px-3 py-1 bg-white/10 hover:bg-white/20 rounded transition"
-            >
+            <div className="flex items-center gap-1 px-2 py-1 bg-white/10 rounded">
               <Globe size={16} />
-              <span>{language === 'en' ? 'English' : language === 'mr' ? 'मराठी' : 'हिंदी'}</span>
-            </button>
+              <label htmlFor="language-select" className="sr-only">
+                Select language
+              </label>
+              <select
+                id="language-select"
+                value={language}
+                onChange={(event) => onLanguageChange(event.target.value as Language)}
+                className="bg-transparent border-0 text-white text-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-white/60"
+                aria-label="Select language"
+              >
+                <option value="en" className="text-gray-900">English</option>
+                <option value="mr" className="text-gray-900">मराठी</option>
+                <option value="hi" className="text-gray-900">हिंदी</option>
+              </select>
+            </div>
             
             {user ? (
               <div className="relative" ref={userMenuRef}>

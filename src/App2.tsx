@@ -97,7 +97,12 @@ class ErrorBoundary extends React.Component<
 function App() {
   const { user, profile, loading: authLoading } = useAuth();
   const { settings, loading: settingsLoading } = useWebsiteSettings();
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<Language>(() => {
+    const savedLanguage = localStorage.getItem('gp-language');
+    return savedLanguage === 'mr' || savedLanguage === 'hi' || savedLanguage === 'en'
+      ? savedLanguage
+      : 'en';
+  });
   const [currentPage, setCurrentPage] = useState('home');
   const [urlParams, setUrlParams] = useState<Record<string, string>>({});
 
@@ -272,6 +277,10 @@ function App() {
     
     // Ensure UTF-8 is properly set
     htmlElement.setAttribute('charset', 'UTF-8');
+  }, [language]);
+
+  useEffect(() => {
+    localStorage.setItem('gp-language', language);
   }, [language]);
 
   // Apply primary color from website settings to CSS
