@@ -6,7 +6,7 @@ import HeroCarousel from './components/HeroCarousel';
 import { useAuth } from './contexts/AuthContext';
 import { useWebsiteSettings } from './contexts/WebsiteSettingsContext';
 import { Language } from './types';
-import { triText } from './lib/i18n';
+import BackButton from './components/BackButton';
 
 // Lazy load heavy components for better performance
 const DashboardStats = lazy(() => import('./components/DashboardStatsOptimized'));
@@ -487,22 +487,15 @@ function App() {
 
   // Simple router - in production use React Router
   const renderPage = () => {
-    const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
-    
-    const BackButton = () => (
-      <button
-        onClick={goBack}
-        className="mb-6 flex items-center gap-2 text-green-700 hover:text-green-800 font-semibold text-lg"
-      >
-        ← {t('Back to Home', 'मुख्यपृष्ठावर परत')}
-      </button>
+    const PageBackButton = () => (
+      <BackButton language={language} onBack={goBack} className="mb-6" />
     );
     
     switch (currentPage) {
       case 'elected-body':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <BackButton />
+            <PageBackButton />
             <ErrorBoundary>
               <Suspense fallback={<LoadingSpinner />}>
                 <ElectedBodyPage language={language} />
@@ -513,7 +506,7 @@ function App() {
       case 'grievances':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <BackButton />
+            <PageBackButton />
             <ErrorBoundary>
               <Suspense fallback={<LoadingSpinner />}>
                 <GrievancePage language={language} />
@@ -524,7 +517,7 @@ function App() {
       case 'development-works':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <BackButton />
+            <PageBackButton />
             <ErrorBoundary>
               <Suspense fallback={<LoadingSpinner />}>
                 <DevelopmentWorksPage language={language} />
@@ -535,7 +528,7 @@ function App() {
       case 'schemes':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <BackButton />
+            <PageBackButton />
             <ErrorBoundary>
               <Suspense fallback={<LoadingSpinner />}>
                 <SchemesPage language={language} />
@@ -546,7 +539,7 @@ function App() {
       case 'contact':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <BackButton />
+            <PageBackButton />
             <Suspense fallback={<LoadingSpinner />}>
               <ContactPage language={language} />
             </Suspense>
@@ -555,7 +548,7 @@ function App() {
       case 'staff':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <BackButton />
+            <PageBackButton />
             <Suspense fallback={<LoadingSpinner />}>
               <StaffPage language={language} />
             </Suspense>
@@ -564,7 +557,7 @@ function App() {
       case 'gallery':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <BackButton />
+            <PageBackButton />
             <Suspense fallback={<LoadingSpinner />}>
               <GalleryPage language={language} />
             </Suspense>
@@ -573,7 +566,7 @@ function App() {
       case 'about':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <BackButton />
+            <PageBackButton />
             <Suspense fallback={<LoadingSpinner />}>
               <AboutUsPage language={language} />
             </Suspense>
@@ -582,7 +575,7 @@ function App() {
       case 'committees':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <BackButton />
+            <PageBackButton />
             <Suspense fallback={<LoadingSpinner />}>
               <CommitteesPage language={language} />
             </Suspense>
@@ -591,7 +584,7 @@ function App() {
       case 'pay-tax':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <BackButton />
+            <PageBackButton />
             <Suspense fallback={<LoadingSpinner />}>
               <TaxPaymentPage language={language} />
             </Suspense>
@@ -600,7 +593,7 @@ function App() {
       case 'check-tax':
         return (
           <div>
-            <BackButton />
+            <PageBackButton />
             <Suspense fallback={<LoadingSpinner />}>
               <TaxCheckPage language={language} />
             </Suspense>
@@ -651,7 +644,7 @@ function App() {
       case 'forms':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <BackButton />
+            <PageBackButton />
             <Suspense fallback={<LoadingSpinner />}>
               <FormsPage language={language} />
             </Suspense>

@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .page-container {
+    @apply mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8;
+  }
+
+  .modern-card {
+    @apply rounded-2xl border border-gray-100 bg-white shadow-sm transition-shadow duration-300 hover:shadow-lg;
+  }
+
+  .modern-input {
+    @apply w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-gray-900 shadow-sm outline-none transition placeholder:text-gray-400 focus:border-green-500 focus:ring-4 focus:ring-green-100;
+  }
+
+  .modern-primary-button {
+    @apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 px-5 py-3 font-semibold text-white shadow-md transition hover:from-green-700 hover:to-emerald-700 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-green-100 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+}
+
 @layer base {
   /* Ensure proper font for all elements, especially Marathi/Devanagari text */
   html {

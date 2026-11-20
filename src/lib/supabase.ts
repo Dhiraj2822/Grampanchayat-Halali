@@ -7,20 +7,29 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Supabase URL or Anon Key environment variables are not set.');
 }
 
-// Custom storage that safely handles localStorage with UTF-8 encoding
 const customStorage = {
   getItem: (key: string): string | null => {
     if (typeof window !== 'undefined') {
-      const item = window.localStorage.getItem(key);
-      // Ensure UTF-8 handling for special characters
-      return item ? decodeURIComponent(item) : null;
+      const value = window.localStorage.getItem(key);
+      if (!value) return null;
+      try {
+        JSON.parse(value);
+        return value;
+      } catch {
+        try {
+          const decoded = decodeURIComponent(value);
+          JSON.parse(decoded);
+          return decoded;
+        } catch {
+          return null;
+        }
+      }
     }
     return null;
   },
   setItem: (key: string, value: string): void => {
     if (typeof window !== 'undefined') {
-      // Ensure proper UTF-8 encoding when storing
-      window.localStorage.setItem(key, encodeURIComponent(value));
+      window.localStorage.setItem(key, value);
     }
   },
   removeItem: (key: string): void => {

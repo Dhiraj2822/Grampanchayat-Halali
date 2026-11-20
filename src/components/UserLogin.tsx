@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
-import { Eye, EyeOff, Mail, Lock, UserPlus, User } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, UserPlus, User, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { Language } from '../types';
 
@@ -59,24 +59,26 @@ const UserLogin: React.FC<UserLoginProps> = ({ language, onNavigate, onBack }) =
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <div className="mx-auto w-20 h-20 bg-gradient-to-r from-green-600 to-blue-600 rounded-full flex items-center justify-center mb-4">
-            <UserPlus className="w-10 h-10 text-white" />
-          </div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+    <div className="relative min-h-[calc(100vh-180px)] overflow-hidden bg-gradient-to-br from-green-50 via-white to-blue-50 px-4 py-10 flex items-center justify-center">
+      <div className="pointer-events-none absolute -left-24 top-10 h-64 w-64 rounded-full bg-green-200/40 blur-3xl" />
+      <div className="pointer-events-none absolute -right-20 bottom-10 h-72 w-72 rounded-full bg-blue-200/40 blur-3xl" />
+      <div className="relative w-full max-w-md">
+        <div className="modern-card p-6 sm:p-8">
+          <div className="text-center mb-6">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-green-600 to-blue-600 shadow-lg shadow-green-100">
+              {isLogin ? <ShieldCheck className="h-8 w-8 text-white" /> : <UserPlus className="h-8 w-8 text-white" />}
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
             {t('Gram Panchayat Login', 'ग्रामपंचायत लॉगिन', 'ग्राम पंचायत लॉगिन')}
-          </h1>
-          <p className="text-gray-600">
-            {isLogin 
-              ? t('Sign in to your account', 'तुमच्या खात्यात साइन इन करा', 'अपने खाते में साइन इन करें')
-              : t('Create a new account', 'नवीन खाते तयार करा', 'नया खाता बनाएं')
-            }
-          </p>
-        </div>
+            </h1>
+            <p className="text-gray-600">
+              {isLogin
+                ? t('Sign in to your account', 'तुमच्या खात्यात साइन इन करा', 'अपने खाते में साइन इन करें')
+                : t('Create a new account', 'नवीन खाते तयार करा', 'नया खाता बनाएं')}
+            </p>
+          </div>
 
-        <div className="flex bg-gray-100 rounded-lg p-1 mb-6">
+        <div className="flex rounded-xl bg-gray-100 p-1 mb-6">
           <button
             onClick={() => {
               setIsLogin(true);
@@ -224,6 +226,7 @@ const UserLogin: React.FC<UserLoginProps> = ({ language, onNavigate, onBack }) =
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 };
