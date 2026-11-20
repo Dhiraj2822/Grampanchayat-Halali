@@ -6,6 +6,7 @@ import HeroCarousel from './components/HeroCarousel';
 import { useAuth } from './contexts/AuthContext';
 import { useWebsiteSettings } from './contexts/WebsiteSettingsContext';
 import { Language } from './types';
+import { installHindiRenderer, restoreEnglishOrMarathiText } from './lib/i18n';
 
 // Lazy load heavy components for better performance
 const DashboardStats = lazy(() => import('./components/DashboardStatsOptimized'));
@@ -281,6 +282,11 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem('gp-language', language);
+    if (language === 'hi') {
+      return installHindiRenderer();
+    }
+    restoreEnglishOrMarathiText();
+    return undefined;
   }, [language]);
 
   // Apply primary color from website settings to CSS
