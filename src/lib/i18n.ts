@@ -1,6 +1,9 @@
 import { Language } from '../types';
 
 const hindiText: Record<string, string> = {
+  'Select language': 'भाषा चुनें',
+  'Previous slide': 'पिछला स्लाइड',
+  'Next slide': 'अगला स्लाइड',
   'Flash News': 'ताजा समाचार',
   'Welcome to Digital Village': 'डिजिटल गांव में आपका स्वागत है',
   'Online Services Available': 'ऑनलाइन सेवाएं उपलब्ध',

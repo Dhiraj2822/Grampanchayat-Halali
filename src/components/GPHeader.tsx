@@ -214,14 +214,14 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
             <div className="flex items-center gap-1 px-2 py-1 bg-white/10 rounded">
               <Globe size={16} />
               <label htmlFor="language-select" className="sr-only">
-                Select language
+                {t('Select language', 'भाषा निवडा', 'भाषा चुनें')}
               </label>
               <select
                 id="language-select"
                 value={language}
                 onChange={(event) => onLanguageChange(event.target.value as Language)}
                 className="bg-transparent border-0 text-white text-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-white/60"
-                aria-label="Select language"
+                aria-label={t('Select language', 'भाषा निवडा', 'भाषा चुनें')}
               >
                 <option value="en" className="text-gray-900">English</option>
                 <option value="mr" className="text-gray-900">मराठी</option>

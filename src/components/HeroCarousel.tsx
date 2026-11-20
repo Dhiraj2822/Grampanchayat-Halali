@@ -207,14 +207,14 @@ const HeroCarousel = ({ language, onNavigate }: HeroCarouselProps) => {
           <button
             onClick={prevSlide}
             className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100"
-            aria-label="Previous slide"
+            aria-label={t('Previous slide', 'मागील स्लाइड', 'पिछला स्लाइड')}
           >
             <ChevronLeft size={28} />
           </button>
           <button
             onClick={nextSlide}
             className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100"
-            aria-label="Next slide"
+            aria-label={t('Next slide', 'पुढील स्लाइड', 'अगला स्लाइड')}
           >
             <ChevronRight size={28} />
           </button>
@@ -233,7 +233,7 @@ const HeroCarousel = ({ language, onNavigate }: HeroCarouselProps) => {
                   ? 'bg-white w-8'
                   : 'bg-white/50 hover:bg-white/75'
               }`}
-              aria-label={`Go to slide ${index + 1}`}
+              aria-label={t(`Go to slide ${index + 1}`, `स्लाइड ${index + 1} वर जा`, `स्लाइड ${index + 1} पर जाएं`)}
             />
           ))}
         </div>
