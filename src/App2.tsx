@@ -249,7 +249,7 @@ function App() {
     'bpl-list': '/bpl-list',
     'login': '/login',
     'search': '/search',
-    'infrastructure': '/infrastructure',
+    'infrastructure': '/development/infrastructure',
     'my-dashboard': '/my-dashboard',
     'admin-dashboard': '/admin-dashboard',
     'super-admin-dashboard': '/super-admin-dashboard',
