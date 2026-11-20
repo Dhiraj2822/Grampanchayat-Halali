@@ -382,6 +382,12 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
                   onClick={() => {
                     if (item.id === 'home') {
                       handleNavigation('home');
+                    } else if (item.path && !item.submenu) {
+                      const directPageMap: Record<string, string> = {
+                        '/about': 'about',
+                        '/contact': 'contact',
+                      };
+                      handleNavigation(directPageMap[item.path] || item.path.replace('/', ''));
                     } else if (item.submenu) {
                       setActiveMenu((currentMenu) => currentMenu === item.id ? null : item.id);
                     } else if (item.id === 'schemes' && !item.submenu) {
