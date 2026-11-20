@@ -31,6 +31,7 @@ const RTIPage = lazy(() => import('./components/RTIPage'));
 const GramSabhaPage = lazy(() => import('./components/GramSabhaPage'));
 const BudgetPage = lazy(() => import('./components/BudgetPage'));
 const BPLListPage = lazy(() => import('./components/BPLListPage'));
+const SearchPage = lazy(() => import('./components/SearchPage'));
 const UserLogin = lazy(() => import('./components/UserLogin'));
 const UserDashboard = lazy(() => import('./components/UserDashboard'));
 const AdminDashboard = lazy(() => import('./components/AdminDashboard'));
@@ -131,6 +132,7 @@ function App() {
     'development-works': 'development-works',
     'bpl-list': 'bpl-list',
     'login': 'login',
+    'search': 'search',
     'my-dashboard': 'my-dashboard',
     'admin-dashboard': 'admin-dashboard',
     'super-admin-dashboard': 'super-admin-dashboard',
@@ -178,6 +180,12 @@ function App() {
       if (firstSegment === 'forms' && secondSegment) {
         setCurrentPage('certificates');
         setUrlParams({ type: secondSegment });
+        return;
+      }
+
+      if (firstSegment === 'search') {
+        setCurrentPage('search');
+        setUrlParams({ q: new URLSearchParams(window.location.search).get('q') || '' });
         return;
       }
       
@@ -231,6 +239,7 @@ function App() {
     'development-works': '/development/works',
     'bpl-list': '/bpl-list',
     'login': '/login',
+    'search': '/search',
     'my-dashboard': '/my-dashboard',
     'admin-dashboard': '/admin-dashboard',
     'super-admin-dashboard': '/super-admin-dashboard',
@@ -244,14 +253,14 @@ function App() {
     let newUrl = pageToUrlMap[page] || '/';
     if (page === 'certificates' && params?.type) {
       newUrl = `/forms/${params.type}`;
+    } else if (page === 'search' && params?.q) {
+      newUrl = `/search?q=${encodeURIComponent(params.q)}`;
     }
     
     // Update browser history
     window.history.pushState({ page, params }, '', newUrl);
     
-    if (params) {
-      setUrlParams(params);
-    }
+    setUrlParams(params || {});
   };
 
   // Update HTML lang attribute and dir when language changes
@@ -271,6 +280,25 @@ function App() {
       document.documentElement.style.setProperty('--primary-color', settings.primary_color);
     }
   }, [settings?.primary_color]);
+
+  useEffect(() => {
+    const villageName = language === 'mr'
+      ? (settings.village_name_mr || settings.village_name || 'ग्रामपंचायत')
+      : (settings.village_name || 'Gram Panchayat');
+    const districtName = language === 'mr'
+      ? (settings.district_mr || settings.district || '')
+      : (settings.district || '');
+    const suffix = districtName ? `, ${districtName}` : '';
+    document.title = `${villageName}${suffix} | Government of Maharashtra`;
+
+    const description = document.querySelector('meta[name="description"]');
+    description?.setAttribute(
+      'content',
+      language === 'mr'
+        ? `${villageName}${suffix} ची अधिकृत वेबसाइट. नागरिक सेवा, योजना, विकासकामे आणि ग्रामपंचायत माहिती.`
+        : `Official website of ${villageName}${suffix} with citizen services, schemes, development works, notices, and transparent local governance.`
+    );
+  }, [language, settings.district, settings.district_mr, settings.village_name, settings.village_name_mr]);
 
   // Send users to the dashboard appropriate for their role after authentication.
   useEffect(() => {
@@ -644,6 +672,16 @@ function App() {
         return (
           <Suspense fallback={<LoadingSpinner message="Loading login page..." />}>
             <UserLogin isMarathi={language === 'mr'} onNavigate={updatePage} />
+          </Suspense>
+        );
+      case 'search':
+        return (
+          <Suspense fallback={<LoadingSpinner message="Loading search..." />}>
+            <SearchPage
+              language={language}
+              initialQuery={urlParams.q}
+              onNavigate={updatePage}
+            />
           </Suspense>
         );
       case 'my-dashboard':

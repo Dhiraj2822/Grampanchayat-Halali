@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, useRef } from 'react';
-import { Home, Users, FileText, Building2, Award, Info, ImageIcon, Phone, LogIn, LogOut, User, Settings, Menu, X, Globe, Crown } from 'lucide-react';
+import { Home, Users, FileText, Building2, Award, Info, ImageIcon, Phone, LogIn, LogOut, User, Settings, Menu, X, Globe, Crown, Search } from 'lucide-react';
 import { Language } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { useWebsiteSettings } from '../contexts/WebsiteSettingsContext';
@@ -8,7 +8,7 @@ import { useWebsiteSettings } from '../contexts/WebsiteSettingsContext';
 interface GPHeaderProps {
   language: Language;
   onLanguageChange: (lang: Language) => void;
-  onNavigate?: (page: string) => void;
+  onNavigate?: (page: string, params?: Record<string, string>) => void;
   user?: any;
   profile?: any;
 }
@@ -17,6 +17,7 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const userMenuRef = useRef<HTMLDivElement>(null);
   
   const { user, profile } = useAuth();
@@ -47,9 +48,9 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleNavigation = (page: string) => {
+  const handleNavigation = (page: string, params?: Record<string, string>) => {
     if (onNavigate) {
-      onNavigate(page);
+      onNavigate(page, params);
       setIsMobileMenuOpen(false);
       setActiveMenu(null);
     }
@@ -169,6 +170,33 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
             <span className="hidden md:inline">{t(`Welcome to Digital ${villageName}`, `डिजिटल ${villageName} मध्ये आपले स्वागत आहे`)}</span>
           </div>
           <div className="flex items-center gap-4">
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+                if (searchTerm.trim()) {
+                  handleNavigation('search', { q: searchTerm.trim() });
+                }
+              }}
+              className="hidden sm:flex items-center"
+            >
+              <label htmlFor="header-search" className="sr-only">
+                {t('Search website', 'वेबसाइट शोधा')}
+              </label>
+              <input
+                id="header-search"
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+                placeholder={t('Search', 'शोधा')}
+                className="w-24 md:w-36 px-2 py-1 rounded-l bg-white text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-300"
+              />
+              <button
+                type="submit"
+                aria-label={t('Search website', 'वेबसाइट शोधा')}
+                className="px-2 py-1 bg-white/10 hover:bg-white/20 rounded-r transition"
+              >
+                <Search size={16} />
+              </button>
+            </form>
             <button
               onClick={() => onLanguageChange(language === 'en' ? 'mr' : 'en')}
               className="flex items-center gap-1 px-3 py-1 bg-white/10 hover:bg-white/20 rounded transition"

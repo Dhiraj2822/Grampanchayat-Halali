@@ -11,6 +11,16 @@ interface ContactPageProps {
 const ContactPage = ({ language }: ContactPageProps) => {
   const [contacts, setContacts] = useState<ContactInfo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [feedbackLoading, setFeedbackLoading] = useState(false);
+  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [feedbackError, setFeedbackError] = useState('');
+  const [feedbackData, setFeedbackData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
   const { settings } = useWebsiteSettings();
 
   const t = (en: string, mr: string) => language === 'mr' ? mr : en;
@@ -65,6 +75,23 @@ const ContactPage = ({ language }: ContactPageProps) => {
       default:
         return 'from-gray-600 to-gray-700 border-gray-300';
     }
+  };
+
+  const handleFeedbackSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setFeedbackLoading(true);
+    setFeedbackMessage('');
+    setFeedbackError('');
+
+    const { error } = await supabase.from('feedback_submissions').insert(feedbackData);
+    if (error) {
+      console.error('Error submitting feedback:', error);
+      setFeedbackError(t('Unable to send your message. Please try again.', 'संदेश पाठवता आला नाही. कृपया पुन्हा प्रयत्न करा.'));
+    } else {
+      setFeedbackMessage(t('Your message was submitted successfully.', 'तुमचा संदेश यशस्वीरित्या पाठवला आहे.'));
+      setFeedbackData({ name: '', phone: '', email: '', subject: '', message: '' });
+    }
+    setFeedbackLoading(false);
   };
 
   // Group contacts by type
@@ -231,7 +258,7 @@ const ContactPage = ({ language }: ContactPageProps) => {
           {t('Send Us a Message', 'आम्हाला संदेश पाठवा')}
         </h2>
         
-        <form className="max-w-2xl mx-auto space-y-6">
+        <form onSubmit={handleFeedbackSubmit} className="max-w-2xl mx-auto space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-gray-700 font-semibold mb-2">
@@ -240,6 +267,8 @@ const ContactPage = ({ language }: ContactPageProps) => {
               <input
                 type="text"
                 required
+                value={feedbackData.name}
+                onChange={(event) => setFeedbackData({ ...feedbackData, name: event.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 placeholder={t('Enter your name', 'तुमचे नाव टाका')}
               />
@@ -253,6 +282,8 @@ const ContactPage = ({ language }: ContactPageProps) => {
                 type="tel"
                 required
                 pattern="[0-9]{10}"
+                value={feedbackData.phone}
+                onChange={(event) => setFeedbackData({ ...feedbackData, phone: event.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 placeholder="9876543210"
               />
@@ -265,6 +296,8 @@ const ContactPage = ({ language }: ContactPageProps) => {
             </label>
             <input
               type="email"
+              value={feedbackData.email}
+              onChange={(event) => setFeedbackData({ ...feedbackData, email: event.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
               placeholder="your.email@example.com"
             />
@@ -277,6 +310,8 @@ const ContactPage = ({ language }: ContactPageProps) => {
             <input
               type="text"
               required
+              value={feedbackData.subject}
+              onChange={(event) => setFeedbackData({ ...feedbackData, subject: event.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
               placeholder={t('What is this regarding?', 'हे कशाबद्दल आहे?')}
             />
@@ -289,6 +324,8 @@ const ContactPage = ({ language }: ContactPageProps) => {
             <textarea
               required
               rows={5}
+              value={feedbackData.message}
+              onChange={(event) => setFeedbackData({ ...feedbackData, message: event.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
               placeholder={t('Type your message here...', 'तुमचा संदेश येथे टाका...')}
             />
@@ -305,11 +342,14 @@ const ContactPage = ({ language }: ContactPageProps) => {
           </div>
 
           <div className="text-center">
+            {feedbackMessage && <p className="mb-3 text-green-700" role="status">{feedbackMessage}</p>}
+            {feedbackError && <p className="mb-3 text-red-700" role="alert">{feedbackError}</p>}
             <button
               type="submit"
+              disabled={feedbackLoading}
               className="bg-gradient-to-r from-green-600 to-green-700 text-white px-12 py-4 rounded-lg hover:from-green-700 hover:to-green-800 transition font-bold text-lg shadow-lg"
             >
-              {t('Send Message', 'संदेश पाठवा')} 📧
+              {feedbackLoading ? t('Sending...', 'पाठवत आहे...') : t('Send Message', 'संदेश पाठवा')} 📧
             </button>
           </div>
         </form>
