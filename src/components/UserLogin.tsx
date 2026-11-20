@@ -7,10 +7,9 @@ import { Language } from '../types';
 interface UserLoginProps {
   language: Language;
   onNavigate: (page: string) => void;
-  onBack?: () => void;
 }
 
-const UserLogin: React.FC<UserLoginProps> = ({ language, onNavigate, onBack }) => {
+const UserLogin: React.FC<UserLoginProps> = ({ language, onNavigate }) => {
   const { signIn, signUp } = useAuth();
   const t = (en: string, mr: string, hi: string) =>
     language === 'mr' ? mr : language === 'hi' ? hi : en;
@@ -217,14 +216,6 @@ const UserLogin: React.FC<UserLoginProps> = ({ language, onNavigate, onBack }) =
           </button>
         </form>
 
-        <div className="mt-6 text-center">
-          <button
-            onClick={() => onBack ? onBack() : onNavigate('home')}
-            className="text-gray-600 hover:text-gray-800 text-sm font-medium transition-colors"
-          >
-             {t('Back to Home', 'मुख्यपृष्ठावर परत', 'मुख्यपृष्ठ पर वापस')}
-          </button>
-        </div>
       </div>
     </div>
     </div>

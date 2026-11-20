@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { FileText, IndianRupee, TrendingUp, Download } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
-import BackButton from './BackButton';
 import PageHeader from './PageHeader';
 import { triText } from '../lib/i18n';
 
@@ -20,10 +19,9 @@ interface BudgetDocument {
 
 interface BudgetPageProps {
   language: Language;
-  onBack: () => void;
 }
 
-const BudgetPage = ({ language, onBack }: BudgetPageProps) => {
+const BudgetPage = ({ language }: BudgetPageProps) => {
   const [documents, setDocuments] = useState<BudgetDocument[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedType, setSelectedType] = useState<string>('all');
@@ -94,8 +92,6 @@ const BudgetPage = ({ language, onBack }: BudgetPageProps) => {
         marathiDescription="आर्थिक पारदर्शकता आणि जबाबदारी दस्तऐवज"
         hindiDescription="वित्तीय पारदर्शिता और जवाबदेही दस्तावेज़"
         icon={<IndianRupee size={28} />}
-        onBack={onBack}
-        BackButton={BackButton}
         tone="indigo"
       />
 

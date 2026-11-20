@@ -3,16 +3,14 @@ import { FileText, Send, CheckCircle, Clock, MessageSquare } from 'lucide-react'
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
 import { useWebsiteSettings } from '../contexts/WebsiteSettingsContext';
-import BackButton from './BackButton';
 import PageHeader from './PageHeader';
 import { triText } from '../lib/i18n';
 
 interface RTIPageProps {
   language: Language;
-  onBack: () => void;
 }
 
-const RTIPage = ({ language, onBack }: RTIPageProps) => {
+const RTIPage = ({ language }: RTIPageProps) => {
   const { settings } = useWebsiteSettings();
   const [formData, setFormData] = useState({
     applicant_name: '',
@@ -90,12 +88,6 @@ const RTIPage = ({ language, onBack }: RTIPageProps) => {
           <p className="text-sm text-gray-600 mb-6">
             {t('You will receive a response within 30 days as per RTI Act 2005.', 'RTI कायदा 2005 नुसार तुम्हाला 30 दिवसांत प्रतिसाद मिळेल.')}
           </p>
-          <button
-            onClick={onBack}
-            className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition font-medium"
-          >
-            {t('Back to Home', 'मुख्यपृष्ठावर परत')}
-          </button>
         </div>
       </div>
     );
@@ -112,8 +104,6 @@ const RTIPage = ({ language, onBack }: RTIPageProps) => {
         marathiDescription="तुमचा RTI अर्ज ऑनलाइन सादर करा"
         hindiDescription="अपना RTI आवेदन ऑनलाइन जमा करें"
         icon={<FileText size={28} />}
-        onBack={onBack}
-        BackButton={BackButton}
         tone="blue"
       />
 
@@ -269,13 +259,6 @@ const RTIPage = ({ language, onBack }: RTIPageProps) => {
                     {t('Submit Application', 'अर्ज सादर करा')}
                   </>
                 )}
-              </button>
-              <button
-                type="button"
-                onClick={onBack}
-                className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-medium"
-              >
-                {t('Cancel', 'रद्द करा')}
               </button>
             </div>
           </form>

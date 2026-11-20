@@ -3,7 +3,6 @@ import { Calendar, Users, FileText, Download } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
 import { triText } from '../lib/i18n';
-import BackButton from './BackButton';
 import PageHeader from './PageHeader';
 
 interface GramSabhaMeeting {
@@ -22,10 +21,9 @@ interface GramSabhaMeeting {
 
 interface GramSabhaPageProps {
   language: Language;
-  onBack: () => void;
 }
 
-const GramSabhaPage = ({ language, onBack }: GramSabhaPageProps) => {
+const GramSabhaPage = ({ language }: GramSabhaPageProps) => {
   const [meetings, setMeetings] = useState<GramSabhaMeeting[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedYear, setSelectedYear] = useState<string>('all');
@@ -80,8 +78,6 @@ const GramSabhaPage = ({ language, onBack }: GramSabhaPageProps) => {
         marathiDescription="गाव सभांच्या सभा आणि निर्णयांची नोंद"
         hindiDescription="ग्रामसभा बैठक और निर्णयों का विवरण"
         icon={<Users size={28} />}
-        onBack={onBack}
-        BackButton={BackButton}
         tone="purple"
       />
 

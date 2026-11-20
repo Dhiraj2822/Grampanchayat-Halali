@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Users, Search, Download } from 'lucide-react';
+import { Users, Search, Download } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
 import { triText } from '../lib/i18n';
@@ -20,10 +20,9 @@ interface BPLFamily {
 
 interface BPLListPageProps {
   language: Language;
-  onBack: () => void;
 }
 
-const BPLListPage = ({ language, onBack }: BPLListPageProps) => {
+const BPLListPage = ({ language }: BPLListPageProps) => {
   const [families, setFamilies] = useState<BPLFamily[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -108,13 +107,6 @@ const BPLListPage = ({ language, onBack }: BPLListPageProps) => {
       {/* Header */}
       <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white py-8">
         <div className="max-w-7xl mx-auto px-4">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-white/90 hover:text-white mb-4 transition"
-          >
-            <ArrowLeft size={20} />
-            <span>{t('Back', 'मागे')}</span>
-          </button>
           <h1 className="text-3xl md:text-4xl font-bold mb-2">
             {t('BPL/APL Family List', 'BPL/APL कुटुंब यादी')}
           </h1>

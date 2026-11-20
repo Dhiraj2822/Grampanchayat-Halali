@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { FileText, Calendar, IndianRupee, CheckCircle, Clock } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
-import BackButton from './BackButton';
 import PageHeader from './PageHeader';
 import { triText } from '../lib/i18n';
 
@@ -22,10 +21,9 @@ interface GPDPProject {
 
 interface GramPanchayatDevelopmentPlanPageProps {
   language: Language;
-  onBack: () => void;
 }
 
-const GramPanchayatDevelopmentPlanPage = ({ language, onBack }: GramPanchayatDevelopmentPlanPageProps) => {
+const GramPanchayatDevelopmentPlanPage = ({ language }: GramPanchayatDevelopmentPlanPageProps) => {
   const [projects, setProjects] = useState<GPDPProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedYear, setSelectedYear] = useState<string>('2024-25');
@@ -99,8 +97,6 @@ const GramPanchayatDevelopmentPlanPage = ({ language, onBack }: GramPanchayatDev
         marathiDescription="गावाच्या विकासासाठी सहभागी नियोजन"
         hindiDescription="गांव के विकास के लिए सहभागी नियोजन"
         icon={<FileText size={28} />}
-        onBack={onBack}
-        BackButton={BackButton}
         tone="green"
       />
 

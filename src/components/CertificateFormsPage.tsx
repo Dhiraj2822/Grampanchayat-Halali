@@ -9,14 +9,13 @@ import FileUpload from './FileUpload';
 
 interface CertificateFormsPageProps {
   language: Language;
-  onBack: () => void;
   onNavigate?: (page: string, params?: Record<string, string>) => void;
   certificateType?: string;
 }
 
 type CertificateType = 'birth' | 'death' | 'marriage' | 'bpl' | 'property-tax' | 'destitute';
 
-const CertificateFormsPage: React.FC<CertificateFormsPageProps> = ({ language, onBack, onNavigate, certificateType }) => {
+const CertificateFormsPage: React.FC<CertificateFormsPageProps> = ({ language, onNavigate, certificateType }) => {
   const { user } = useAuth();
   const [selectedType, setSelectedType] = useState<CertificateType | ''>(
     (certificateType as CertificateType) || ''
@@ -1322,12 +1321,6 @@ const CertificateFormsPage: React.FC<CertificateFormsPageProps> = ({ language, o
             >
               {t('Apply for Another Certificate', '??????? ??????????????? ???? ???')}
             </button>
-            <button
-              onClick={onBack}
-              className="w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-50 transition-colors"
-            >
-              {t('Back to Home', '????????????? ??? ??')}
-            </button>
           </div>
         </div>
       </div>
@@ -1342,12 +1335,6 @@ const CertificateFormsPage: React.FC<CertificateFormsPageProps> = ({ language, o
             <h2 className="text-2xl font-bold text-gray-800">
               {t('Apply for Certificate', '??????????????? ???? ???')}
             </h2>
-            <button
-              onClick={onBack}
-              className="text-gray-600 hover:text-gray-800"
-            >
-              ? {t('Back', '????')}
-            </button>
           </div>
 
           {error && (
@@ -1369,7 +1356,7 @@ const CertificateFormsPage: React.FC<CertificateFormsPageProps> = ({ language, o
                   '????? ???????????????? ???? ?????????? ????? ???. ?? ??????? ???? ???? ????? ??????? ??? ??????????? ????? ??????? ??? ????.')}
               </p>
               <button
-                onClick={() => onNavigate ? onNavigate('login') : onBack()}
+                onClick={() => onNavigate?.('login')}
                 className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
               >
                 {t('Go to Login', '????? ???')}

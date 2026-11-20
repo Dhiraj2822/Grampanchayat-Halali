@@ -6,7 +6,6 @@ import HeroCarousel from './components/HeroCarousel';
 import { useAuth } from './contexts/AuthContext';
 import { useWebsiteSettings } from './contexts/WebsiteSettingsContext';
 import { Language } from './types';
-import BackButton from './components/BackButton';
 
 // Lazy load heavy components for better performance
 const DashboardStats = lazy(() => import('./components/DashboardStatsOptimized'));
@@ -298,15 +297,6 @@ function App() {
     setUrlParams(params || {});
   };
 
-  const goBack = () => {
-    const previousPage = window.history.state?.previousPage;
-    if (previousPage && previousPage !== currentPage) {
-      window.history.back();
-      return;
-    }
-    updatePage('home');
-  };
-
   // Update HTML lang attribute and dir when language changes
   useEffect(() => {
     const htmlElement = document.documentElement;
@@ -487,15 +477,10 @@ function App() {
 
   // Simple router - in production use React Router
   const renderPage = () => {
-    const PageBackButton = () => (
-      <BackButton language={language} onBack={goBack} className="mb-6" />
-    );
-    
     switch (currentPage) {
       case 'elected-body':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <PageBackButton />
             <ErrorBoundary>
               <Suspense fallback={<LoadingSpinner />}>
                 <ElectedBodyPage language={language} />
@@ -506,7 +491,6 @@ function App() {
       case 'grievances':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <PageBackButton />
             <ErrorBoundary>
               <Suspense fallback={<LoadingSpinner />}>
                 <GrievancePage language={language} />
@@ -517,7 +501,6 @@ function App() {
       case 'development-works':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <PageBackButton />
             <ErrorBoundary>
               <Suspense fallback={<LoadingSpinner />}>
                 <DevelopmentWorksPage language={language} />
@@ -528,7 +511,6 @@ function App() {
       case 'schemes':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <PageBackButton />
             <ErrorBoundary>
               <Suspense fallback={<LoadingSpinner />}>
                 <SchemesPage language={language} />
@@ -539,7 +521,6 @@ function App() {
       case 'contact':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <PageBackButton />
             <Suspense fallback={<LoadingSpinner />}>
               <ContactPage language={language} />
             </Suspense>
@@ -548,7 +529,6 @@ function App() {
       case 'staff':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <PageBackButton />
             <Suspense fallback={<LoadingSpinner />}>
               <StaffPage language={language} />
             </Suspense>
@@ -557,7 +537,6 @@ function App() {
       case 'gallery':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <PageBackButton />
             <Suspense fallback={<LoadingSpinner />}>
               <GalleryPage language={language} />
             </Suspense>
@@ -566,7 +545,6 @@ function App() {
       case 'about':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <PageBackButton />
             <Suspense fallback={<LoadingSpinner />}>
               <AboutUsPage language={language} />
             </Suspense>
@@ -575,7 +553,6 @@ function App() {
       case 'committees':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <PageBackButton />
             <Suspense fallback={<LoadingSpinner />}>
               <CommitteesPage language={language} />
             </Suspense>
@@ -584,7 +561,6 @@ function App() {
       case 'pay-tax':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <PageBackButton />
             <Suspense fallback={<LoadingSpinner />}>
               <TaxPaymentPage language={language} />
             </Suspense>
@@ -593,7 +569,6 @@ function App() {
       case 'check-tax':
         return (
           <div>
-            <PageBackButton />
             <Suspense fallback={<LoadingSpinner />}>
               <TaxCheckPage language={language} />
             </Suspense>
@@ -628,7 +603,6 @@ function App() {
             <Suspense fallback={<LoadingSpinner />}>
               <CertificateFormsPage 
                 language={language} 
-                onBack={goBack}
                 onNavigate={(page, params) => {
                   if (page === 'certificate' && params?.type) {
                     updatePage('certificates', params);
@@ -644,7 +618,6 @@ function App() {
       case 'forms':
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
-            <PageBackButton />
             <Suspense fallback={<LoadingSpinner />}>
               <FormsPage language={language} />
             </Suspense>
@@ -654,7 +627,7 @@ function App() {
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
             <Suspense fallback={<LoadingSpinner />}>
-              <GramPanchayatDevelopmentPlanPage language={language} onBack={goBack} />
+              <GramPanchayatDevelopmentPlanPage language={language} />
             </Suspense>
           </div>
         );
@@ -662,7 +635,7 @@ function App() {
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
             <Suspense fallback={<LoadingSpinner />}>
-              <TendersPage language={language} onBack={goBack} />
+              <TendersPage language={language} />
             </Suspense>
           </div>
         );
@@ -670,7 +643,7 @@ function App() {
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
             <Suspense fallback={<LoadingSpinner />}>
-              <RTIPage language={language} onBack={goBack} />
+              <RTIPage language={language} />
             </Suspense>
           </div>
         );
@@ -678,7 +651,7 @@ function App() {
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
             <Suspense fallback={<LoadingSpinner />}>
-              <GramSabhaPage language={language} onBack={goBack} />
+              <GramSabhaPage language={language} />
             </Suspense>
           </div>
         );
@@ -686,7 +659,7 @@ function App() {
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
             <Suspense fallback={<LoadingSpinner />}>
-              <BudgetPage language={language} onBack={goBack} />
+              <BudgetPage language={language} />
             </Suspense>
           </div>
         );
@@ -704,12 +677,6 @@ function App() {
                     ? 'BPL यादी माहिती केवळ प्रशासकांसाठी उपलब्ध आहे.' 
                     : 'BPL list information is only available to administrators.'}
                 </p>
-                <button
-                  onClick={goBack}
-                  className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
-                >
-                  {language === 'mr' ? 'मुख्यपृष्ठावर परत' : 'Back to Home'}
-                </button>
               </div>
             </div>
           );
@@ -717,50 +684,50 @@ function App() {
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
             <Suspense fallback={<LoadingSpinner />}>
-              <BPLListPage language={language} onBack={goBack} />
+              <BPLListPage language={language} />
             </Suspense>
           </div>
         );
       case 'login':
         return (
           <Suspense fallback={<LoadingSpinner message="Loading login page..." />}>
-            <UserLogin language={language} onNavigate={updatePage} onBack={goBack} />
+            <UserLogin language={language} onNavigate={updatePage} />
           </Suspense>
         );
       case 'infrastructure':
         return (
           <Suspense fallback={<LoadingSpinner message="Loading infrastructure..." />}>
-            <InfrastructurePage language={language} onBack={goBack} />
+            <InfrastructurePage language={language} />
           </Suspense>
         );
       case 'culture':
         return (
           <Suspense fallback={<LoadingSpinner />}>
-            <CommunityModulePage language={language} section="culture" onBack={goBack} />
+            <CommunityModulePage language={language} section="culture" />
           </Suspense>
         );
       case 'employment':
         return (
           <Suspense fallback={<LoadingSpinner />}>
-            <CommunityModulePage language={language} section="employment" onBack={goBack} />
+            <CommunityModulePage language={language} section="employment" />
           </Suspense>
         );
       case 'education':
         return (
           <Suspense fallback={<LoadingSpinner />}>
-            <CommunityModulePage language={language} section="education" onBack={goBack} />
+            <CommunityModulePage language={language} section="education" />
           </Suspense>
         );
       case 'environment':
         return (
           <Suspense fallback={<LoadingSpinner />}>
-            <CommunityModulePage language={language} section="environment" onBack={goBack} />
+            <CommunityModulePage language={language} section="environment" />
           </Suspense>
         );
       case 'volunteer':
         return (
           <Suspense fallback={<LoadingSpinner />}>
-            <CommunityModulePage language={language} section="volunteer" onBack={goBack} />
+            <CommunityModulePage language={language} section="volunteer" />
           </Suspense>
         );
       case 'search':

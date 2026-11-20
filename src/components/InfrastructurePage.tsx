@@ -3,12 +3,10 @@ import { Building2, Droplets, MapPin, Phone, ShieldAlert, Zap } from 'lucide-rea
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
 import { triText } from '../lib/i18n';
-import BackButton from './BackButton';
 import PageHeader from './PageHeader';
 
 interface InfrastructureProps {
   language: Language;
-  onBack: () => void;
 }
 
 interface Facility {
@@ -44,7 +42,7 @@ const categoryIcons: Record<string, typeof Building2> = {
   safety: ShieldAlert,
 };
 
-const InfrastructurePage = ({ language, onBack }: InfrastructureProps) => {
+const InfrastructurePage = ({ language }: InfrastructureProps) => {
   const [facilities, setFacilities] = useState<Facility[]>([]);
   const [emergencyContacts, setEmergencyContacts] = useState<Array<{
     id: string;
@@ -110,8 +108,6 @@ const InfrastructurePage = ({ language, onBack }: InfrastructureProps) => {
         marathiDescription="पाणी, रस्ते, आरोग्य, शिक्षण, सुरक्षा आणि सार्वजनिक सुविधा"
         hindiDescription="जल, सड़क, स्वास्थ्य, शिक्षा, सुरक्षा और सार्वजनिक सुविधाएं"
         icon={<Building2 size={28} />}
-        onBack={onBack}
-        BackButton={BackButton}
         tone="blue"
       />
 

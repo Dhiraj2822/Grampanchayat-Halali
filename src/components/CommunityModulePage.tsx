@@ -3,13 +3,11 @@ import { BookOpen, Briefcase, Leaf, Users, HeartHandshake } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
 import { triText } from '../lib/i18n';
-import BackButton from './BackButton';
 import PageHeader from './PageHeader';
 
 interface CommunityModulePageProps {
   language: Language;
   section: 'culture' | 'employment' | 'education' | 'environment' | 'volunteer';
-  onBack: () => void;
 }
 
 interface CommunityEntry {
@@ -63,7 +61,7 @@ const sectionConfig = {
   },
 };
 
-const CommunityModulePage = ({ language, section, onBack }: CommunityModulePageProps) => {
+const CommunityModulePage = ({ language, section }: CommunityModulePageProps) => {
   const [entries, setEntries] = useState<CommunityEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
@@ -102,8 +100,6 @@ const CommunityModulePage = ({ language, section, onBack }: CommunityModulePageP
         marathiTitle={config.marathi}
         hindiTitle={config.hindi}
         icon={<Icon size={28} />}
-        onBack={onBack}
-        BackButton={BackButton}
         tone="emerald"
       />
 

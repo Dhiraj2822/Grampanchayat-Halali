@@ -87,13 +87,7 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
       id: 'about',
       label: t('About Us', 'आमच्याबद्दल'),
       icon: Info,
-      submenu: [
-        { label: t('History', 'इतिहास', 'इतिहास'), path: '/about/history' },
-        { label: t('Culture & Heritage', 'संस्कृती आणि वारसा', 'संस्कृति और विरासत'), path: '/our-village/culture' },
-        { label: t('Geography', 'भूगोल', 'भूगोल'), path: '/about/geography' },
-        { label: t('Demographics', 'लोकसंख्या', 'जनसांख्यिकी'), path: '/about/demographics' },
-        { label: t('Village Map', 'गावाचा नकाशा', 'गांव का नक्शा'), path: '/about/map' },
-      ],
+      path: '/about',
     },
     {
       id: 'administration',

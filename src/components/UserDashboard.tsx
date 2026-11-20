@@ -238,12 +238,6 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ isMarathi, onNavigate }) 
                 {isMarathi ? `नमस्कार, ${profile?.full_name}` : `Welcome, ${profile?.full_name}`}
               </p>
             </div>
-            <button
-              onClick={() => onNavigate('home')}
-              className="px-4 py-2 text-blue-600 hover:text-blue-800 font-medium"
-            >
-              ← {isMarathi ? 'मुख्यपृष्ठावर जा' : 'Back to Home'}
-            </button>
           </div>
         </div>
       </div>

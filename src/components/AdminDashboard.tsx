@@ -489,12 +489,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ isMarathi, onNavigate }
                 {isMarathi ? 'अर्ज, तक्रारी आणि वेबसाइट सामग्री व्यवस्थापित करा' : 'Manage Applications, Complaints & Website Content'}
               </p>
             </div>
-            <button
-              onClick={() => onNavigate('home')}
-              className="px-4 py-2 text-blue-600 hover:text-blue-800 font-medium"
-            >
-              ← {isMarathi ? 'मुख्यपृष्ठावर जा' : 'Back to Home'}
-            </button>
           </div>
         </div>
       </div>

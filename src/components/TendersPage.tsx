@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { FileText, Download } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
-import BackButton from './BackButton';
 import PageHeader from './PageHeader';
 import { triText } from '../lib/i18n';
 
@@ -19,10 +18,9 @@ interface Tender {
 
 interface TendersPageProps {
   language: Language;
-  onBack: () => void;
 }
 
-const TendersPage = ({ language, onBack }: TendersPageProps) => {
+const TendersPage = ({ language }: TendersPageProps) => {
   const [tenders, setTenders] = useState<Tender[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
@@ -89,8 +87,6 @@ const TendersPage = ({ language, onBack }: TendersPageProps) => {
         marathiTitle="सरकारी निविदा"
         hindiTitle="सरकारी निविदाएं"
         icon={<FileText size={28} />}
-        onBack={onBack}
-        BackButton={BackButton}
         tone="blue"
       />
       <div className="mt-8">

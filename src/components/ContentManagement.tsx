@@ -1930,7 +1930,6 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
               }}
               className="bg-white text-blue-600 px-4 py-2 rounded-md hover:bg-blue-50"
             >
-              ← Back to Dashboard
             </button>
           </div>
         </div>
