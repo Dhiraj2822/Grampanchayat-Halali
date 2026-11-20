@@ -23,7 +23,7 @@ const GPFooter = ({ language, onNavigate }: GPFooterProps) => {
     ? (settings.district_mr || settings.district || 'जिल्हा')
     : language === 'hi'
       ? (settings.district_hi || settings.district || 'जिला')
-      : (settings.district || 'District');
+      : (settings.district || '');
 
   const officeAddress = language === 'mr'
     ? (settings.office_address_mr || settings.office_address || '')
@@ -227,7 +227,7 @@ const GPFooter = ({ language, onNavigate }: GPFooterProps) => {
             <a href="/terms" className="hover:text-white transition">
               {t('Terms of Use', 'वापराच्या अटी', 'उपयोग की शर्तें')}
             </a>
-            <a href="/sitemap" className="hover:text-white transition">
+            <a href="/sitemap.xml" className="hover:text-white transition">
               {t('Sitemap', 'साइटमॅप', 'साइटमैप')}
             </a>
           </div>

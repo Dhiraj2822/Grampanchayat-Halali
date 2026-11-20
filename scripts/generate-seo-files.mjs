@@ -5,7 +5,7 @@ const siteUrl = (
   process.env.VITE_SITE_URL ||
   process.env.DEPLOY_PRIME_URL ||
   process.env.URL ||
-  'http://localhost:5173'
+  'https://grampanchayathalali.netlify.app'
 ).replace(/\/+$/, '');
 
 const pages = [

@@ -35,13 +35,13 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
     ? (settings.district_mr || settings.district || 'जिल्हा')
     : language === 'hi'
       ? (settings.district_hi || settings.district || 'जिला')
-      : (settings.district || 'District');
+      : (settings.district || '');
     
   const talukaName = language === 'mr'
     ? (settings.taluka_mr || settings.taluka || 'तालुका')
     : language === 'hi'
       ? (settings.taluka_hi || settings.taluka || 'तहसील')
-      : (settings.taluka || 'Taluka');
+      : (settings.taluka || '');
 
   // Close user menu when clicking outside
   useEffect(() => {
