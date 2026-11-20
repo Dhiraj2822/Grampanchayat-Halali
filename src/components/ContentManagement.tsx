@@ -136,6 +136,27 @@ const tableFields: Record<string, { name: string; type: string; required?: boole
     { name: 'display_order', type: 'number' },
     { name: 'is_active', type: 'boolean' },
   ],
+  'cms_village_progress_metrics': [
+    { name: 'metric_key', type: 'text', required: true },
+    { name: 'label', type: 'text', required: true },
+    { name: 'label_mr', type: 'text' },
+    { name: 'label_hi', type: 'text' },
+    { name: 'metric_value', type: 'number' },
+    { name: 'metric_unit', type: 'text' },
+    { name: 'display_order', type: 'number' },
+    { name: 'is_active', type: 'boolean' },
+  ],
+  'cms_village_achievements': [
+    { name: 'title', type: 'text', required: true },
+    { name: 'title_mr', type: 'text' },
+    { name: 'title_hi', type: 'text' },
+    { name: 'description', type: 'textarea' },
+    { name: 'description_mr', type: 'textarea' },
+    { name: 'description_hi', type: 'textarea' },
+    { name: 'year', type: 'text' },
+    { name: 'display_order', type: 'number' },
+    { name: 'is_active', type: 'boolean' },
+  ],
 };
 
 const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initialSection }) => {
@@ -167,6 +188,8 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
   const [contactInfo, setContactInfo] = useState<any[]>([]);
   const [forms, setForms] = useState<any[]>([]);
   const [videoGallery, setVideoGallery] = useState<any[]>([]);
+  const [progressMetrics, setProgressMetrics] = useState<any[]>([]);
+  const [achievements, setAchievements] = useState<any[]>([]);
 
   const [editingItem, setEditingItem] = useState<any>(null);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -251,6 +274,12 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
           break;
         case 'contact-info':
           await loadContactInfo();
+          break;
+        case 'village-progress':
+          await loadVillageProgress();
+          break;
+        case 'village-achievements':
+          await loadVillageAchievements();
           break;
       }
     } catch (error) {
@@ -391,6 +420,22 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
     if (!error && data) {
       setBudgetItems(data);
     }
+  };
+
+  const loadVillageProgress = async () => {
+    const { data, error } = await supabase
+      .from('cms_village_progress_metrics')
+      .select('*')
+      .order('display_order');
+    if (!error && data) setProgressMetrics(data);
+  };
+
+  const loadVillageAchievements = async () => {
+    const { data, error } = await supabase
+      .from('cms_village_achievements')
+      .select('*')
+      .order('display_order');
+    if (!error && data) setAchievements(data);
   };
 
   const loadForms = async () => {
@@ -1857,6 +1902,8 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
                     { id: 'forms', name: 'Downloads', icon: Archive },
                     { id: 'committees', name: 'Committees', icon: Users },
                     { id: 'budget', name: 'Budget', icon: Wallet },
+                    { id: 'village-progress', name: 'Village Progress Metrics', icon: Building },
+                    { id: 'village-achievements', name: 'Top Achievements', icon: Award },
                   ].map((item) => {
                     const Icon = item.icon;
                     return (
@@ -1902,6 +1949,8 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
                 {activeSection === 'forms' && renderDataTable(forms, ['document_name', 'category', 'file_url'], 'cms_downloads')}
                 {activeSection === 'committees' && renderDataTable(committees, ['name', 'committee_type', 'formation_date', 'is_active'], 'cms_committees')}
                 {activeSection === 'budget' && renderDataTable(budgetItems, ['financial_year', 'category', 'head_name', 'budgeted_amount', 'spent_amount', 'is_active'], 'cms_budget_items')}
+                {activeSection === 'village-progress' && renderDataTable(progressMetrics, ['metric_key', 'label', 'metric_value', 'metric_unit', 'display_order', 'is_active'], 'cms_village_progress_metrics')}
+                {activeSection === 'village-achievements' && renderDataTable(achievements, ['title', 'year', 'display_order', 'is_active'], 'cms_village_achievements')}
               </div>
             )}
           </div>
