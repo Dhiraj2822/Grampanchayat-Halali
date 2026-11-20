@@ -6,6 +6,7 @@ import { supabase } from '../lib/supabase';
 interface DownloadItem {
   id: string;
   document_name: string;
+  document_name_hi?: string;
   category: string;
   file_url: string;
 }
@@ -15,7 +16,8 @@ interface FormsPageProps {
 }
 
 const FormsPage = ({ language }: FormsPageProps) => {
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) =>
+    language === 'mr' ? mr : language === 'hi' ? (hi || en) : en;
   const [forms, setForms] = useState<DownloadItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -96,7 +98,11 @@ const FormsPage = ({ language }: FormsPageProps) => {
                   <FileText size={24} className="text-white" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-bold text-gray-800 mb-2">{form.document_name}</h3>
+                  <h3 className="font-bold text-gray-800 mb-2">
+                    {language === 'hi'
+                      ? (form.document_name_hi || form.document_name)
+                      : form.document_name}
+                  </h3>
                   <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
                     {form.category && (
                       <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded">{form.category}</span>

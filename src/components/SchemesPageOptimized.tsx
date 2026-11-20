@@ -13,7 +13,8 @@ const SchemesPageOptimized = ({ language }: SchemesPageProps) => {
   const [schemes, setSchemes] = useState<Scheme[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) =>
+    language === 'mr' ? mr : language === 'hi' ? (hi || en) : en;
 
   useEffect(() => {
     fetchSchemes();
@@ -113,12 +114,22 @@ const SchemesPageOptimized = ({ language }: SchemesPageProps) => {
                   {scheme.scheme_type} Scheme
                 </span>
               </div>
-              <h3 className="text-lg font-bold mt-2">{scheme.scheme_name}</h3>
+              <h3 className="text-lg font-bold mt-2">
+                {language === 'hi'
+                  ? (scheme.scheme_name_hi || scheme.scheme_name)
+                  : language === 'mr'
+                    ? (scheme.scheme_name_mr || scheme.scheme_name)
+                    : scheme.scheme_name}
+              </h3>
             </div>
 
             {/* Content */}
             <div className="p-4">
-              <p className="text-gray-600 text-sm mb-3">{scheme.description}</p>
+              <p className="text-gray-600 text-sm mb-3">
+                {language === 'hi'
+                  ? ((scheme as typeof scheme & { description_hi?: string }).description_hi || scheme.description)
+                  : scheme.description}
+              </p>
               
               <div className="space-y-2 text-sm">
                 <div className="flex items-center">

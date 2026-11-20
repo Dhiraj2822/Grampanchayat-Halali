@@ -8,7 +8,9 @@ export interface ElectedBody {
   id: string;
   name: string;
   name_mr?: string;
+  name_hi?: string;
   designation: string;
+  designation_hi?: string;
   ward_number?: number;
   ward_name?: string;
   photo_url?: string;
@@ -28,7 +30,9 @@ export interface GPStaff {
   id: string;
   name: string;
   name_mr?: string;
+  name_hi?: string;
   designation: string;
+  designation_hi?: string;
   department?: string;
   photo_url?: string;
   mobile?: string;
@@ -277,12 +281,17 @@ export interface Scheme {
   scheme_code?: string;
   scheme_name: string;
   scheme_name_mr?: string;
+  scheme_name_hi?: string;
   scheme_type?: string;
   department?: string;
   description?: string;
+  description_hi?: string;
   eligibility_criteria?: string;
+  eligibility_criteria_hi?: string;
   benefits?: string;
+  benefits_hi?: string;
   how_to_apply?: string;
+  how_to_apply_hi?: string;
   required_documents?: any;
   scheme_url?: string;
   helpline?: string;

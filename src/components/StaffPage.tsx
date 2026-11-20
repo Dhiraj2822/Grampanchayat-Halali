@@ -11,7 +11,8 @@ const StaffPage = ({ language }: StaffPageProps) => {
   const [staff, setStaff] = useState<GPStaff[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) =>
+    language === 'mr' ? mr : language === 'hi' ? (hi || en) : en;
 
   useEffect(() => {
     fetchStaff();
@@ -75,10 +76,16 @@ const StaffPage = ({ language }: StaffPageProps) => {
 
               <div className="p-6">
                 <h3 className="text-2xl font-bold text-gray-800 mb-2 text-center">
-                  {language === 'mr' && member.name_mr ? member.name_mr : member.name}
+                  {language === 'mr'
+                    ? (member.name_mr || member.name)
+                    : language === 'hi'
+                      ? (member.name_hi || member.name)
+                      : member.name}
                 </h3>
                 <p className="text-center text-blue-600 font-semibold mb-4">
-                  {member.designation}
+                  {language === 'hi'
+                    ? (member.designation_hi || member.designation)
+                    : member.designation}
                 </p>
 
                 <div className="space-y-3">

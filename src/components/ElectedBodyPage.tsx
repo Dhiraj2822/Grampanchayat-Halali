@@ -13,12 +13,15 @@ const ElectedBodyPage = ({ language }: ElectedBodyPageProps) => {
   const [loading, setLoading] = useState(true);
   const { settings } = useWebsiteSettings();
 
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) =>
+    language === 'mr' ? mr : language === 'hi' ? (hi || en) : en;
 
   // Dynamic village name
-  const villageName = language === 'mr' 
+  const villageName = language === 'mr'
     ? (settings.village_name_mr || settings.village_name || 'गाव')
-    : (settings.village_name || 'Village');
+    : language === 'hi'
+      ? (settings.village_name_hi || settings.village_name || 'ग्राम पंचायत')
+      : (settings.village_name || 'Village');
 
   useEffect(() => {
     fetchMembers();
@@ -97,7 +100,16 @@ const ElectedBodyPage = ({ language }: ElectedBodyPageProps) => {
         {members && members.map((member) => {
           if (!member || !member.name || !member.designation) return null;
           
-          const name = language === 'mr' && member.name_mr ? member.name_mr : member.name;
+          const name = language === 'mr'
+            ? (member.name_mr || member.name)
+            : language === 'hi'
+              ? (member.name_hi || member.name)
+              : member.name;
+          const designation = language === 'mr'
+            ? (member.designation)
+            : language === 'hi'
+              ? ((member as ElectedBody & { designation_hi?: string }).designation_hi || member.designation)
+              : member.designation;
           const colorClass = getDesignationColor(member.designation || 'Member');
           
           return (
@@ -108,7 +120,7 @@ const ElectedBodyPage = ({ language }: ElectedBodyPageProps) => {
               {/* Header with designation */}
               <div className={`bg-gradient-to-r ${colorClass} text-white py-3 px-4`}>
                 <h3 className="font-bold text-lg text-center">
-                  {member.designation}
+                  {designation}
                 </h3>
               </div>
 

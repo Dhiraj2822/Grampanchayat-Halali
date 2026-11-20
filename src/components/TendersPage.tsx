@@ -7,6 +7,7 @@ interface Tender {
   id: string;
   tender_no: string;
   title: string;
+  title_hi?: string;
   value?: number;
   status?: string;
   pdf_url?: string;
@@ -23,7 +24,8 @@ const TendersPage = ({ language, onBack }: TendersPageProps) => {
   const [loading, setLoading] = useState(true);
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
 
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) =>
+    language === 'mr' ? mr : language === 'hi' ? (hi || en) : en;
 
   useEffect(() => {
     fetchTenders();
@@ -157,7 +159,9 @@ const TendersPage = ({ language, onBack }: TendersPageProps) => {
 
                     {/* Title */}
                     <h3 className="text-xl font-bold text-gray-900 mb-3">
-                      {tender.title}
+                      {language === 'hi'
+                        ? (tender.title_hi || tender.title)
+                        : tender.title}
                     </h3>
 
                     {/* Value if available */}
