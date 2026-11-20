@@ -63,6 +63,10 @@ const BudgetPage = ({ language, onBack }: BudgetPageProps) => {
     return `₹${(amount / 100000).toFixed(2)}L`;
   };
 
+  const visualTotalIncome = filteredDocuments.reduce((sum, doc) => sum + Number(doc.total_income || 0), 0);
+  const visualTotalExpenditure = filteredDocuments.reduce((sum, doc) => sum + Number(doc.total_expenditure || 0), 0);
+  const visualMaximum = Math.max(visualTotalIncome, visualTotalExpenditure, 1);
+
   const getTypeColor = (type: string) => {
     switch (type) {
       case 'budget':
@@ -116,6 +120,40 @@ const BudgetPage = ({ language, onBack }: BudgetPageProps) => {
             ))}
           </div>
         </div>
+
+        {filteredDocuments.length > 0 && (
+          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 className="text-lg font-bold text-gray-800 mb-5">
+              {t('Income and Expenditure Overview', 'उत्पन्न आणि खर्च विहंगावलोकन')}
+            </h2>
+            <div className="space-y-5">
+              <div>
+                <div className="flex justify-between text-sm mb-2">
+                  <span className="font-medium text-green-700">{t('Income', 'उत्पन्न')}</span>
+                  <span className="font-bold text-green-700">{formatAmount(visualTotalIncome)}</span>
+                </div>
+                <div className="h-5 bg-green-50 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-green-500"
+                    style={{ width: `${Math.max((visualTotalIncome / visualMaximum) * 100, 0)}%` }}
+                  />
+                </div>
+              </div>
+              <div>
+                <div className="flex justify-between text-sm mb-2">
+                  <span className="font-medium text-red-700">{t('Expenditure', 'खर्च')}</span>
+                  <span className="font-bold text-red-700">{formatAmount(visualTotalExpenditure)}</span>
+                </div>
+                <div className="h-5 bg-red-50 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-red-500"
+                    style={{ width: `${Math.max((visualTotalExpenditure / visualMaximum) * 100, 0)}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Documents List */}
         {loading ? (

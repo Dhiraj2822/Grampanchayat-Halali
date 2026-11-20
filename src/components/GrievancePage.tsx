@@ -11,6 +11,17 @@ const GrievancePage = ({ language }: GrievancePageProps) => {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [ticketNumber, setTicketNumber] = useState('');
+  const [trackingTicket, setTrackingTicket] = useState('');
+  const [trackingLoading, setTrackingLoading] = useState(false);
+  const [trackingResult, setTrackingResult] = useState<{
+    complaint_number: string;
+    subject: string;
+    status: string;
+    resolution_note: string | null;
+    created_at: string;
+    updated_at: string;
+  } | null>(null);
+  const [trackingError, setTrackingError] = useState('');
   const [formData, setFormData] = useState({
     complainant_name: '',
     mobile: '',
@@ -43,9 +54,16 @@ const GrievancePage = ({ language }: GrievancePageProps) => {
       const generatedTicket = `GRV${timestamp}`;
 
       const { error } = await supabase.from('cit_complaints').insert({
+        complaint_number: generatedTicket,
+        complainant_name: formData.complainant_name,
+        mobile: formData.mobile,
+        email: formData.email || null,
+        category: formData.category,
+        location: formData.location || null,
         subject: formData.subject,
-        description: `Ticket: ${generatedTicket}\nName: ${formData.complainant_name}\nMobile: ${formData.mobile}\nEmail: ${formData.email || '-'}\nCategory: ${formData.category}\nLocation: ${formData.location}\n\nDetails:\n${formData.description}`,
+        description: formData.description,
         status: 'Submitted',
+        user_id: null,
       });
 
       if (error) throw error;
@@ -69,6 +87,27 @@ const GrievancePage = ({ language }: GrievancePageProps) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleTracking = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setTrackingLoading(true);
+    setTrackingError('');
+    setTrackingResult(null);
+
+    const { data, error } = await supabase.rpc('lookup_grievance_status', {
+      lookup_ticket: trackingTicket.trim(),
+    });
+
+    if (error) {
+      console.error('Error tracking grievance:', error);
+      setTrackingError(t('Unable to track this ticket. Please try again.', 'हा तिकीट ट्रॅक करता आला नाही. कृपया पुन्हा प्रयत्न करा.'));
+    } else if (!data || data.length === 0) {
+      setTrackingError(t('No grievance was found for this ticket number.', 'या तिकीट नंबरसाठी कोणतीही तक्रार सापडली नाही.'));
+    } else {
+      setTrackingResult(data[0]);
+    }
+    setTrackingLoading(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -141,6 +180,46 @@ const GrievancePage = ({ language }: GrievancePageProps) => {
             </ul>
           </div>
         </div>
+      </div>
+
+      {/* Public ticket tracking */}
+      <div className="bg-white border border-green-200 rounded-lg shadow p-6 mb-6">
+        <h2 className="text-xl font-bold text-gray-800 mb-4">
+          {t('Track Grievance Status', 'तक्रार स्थिती तपासा')}
+        </h2>
+        <form onSubmit={handleTracking} className="flex flex-col sm:flex-row gap-3">
+          <input
+            value={trackingTicket}
+            onChange={(event) => setTrackingTicket(event.target.value)}
+            required
+            placeholder={t('Enter ticket number, for example GRV1234567890', 'तिकीट नंबर टाका, उदाहरण GRV1234567890')}
+            className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          />
+          <button
+            type="submit"
+            disabled={trackingLoading}
+            className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
+          >
+            {trackingLoading ? t('Checking...', 'तपासत आहे...') : t('Track', 'तपासा')}
+          </button>
+        </form>
+        {trackingError && (
+          <p className="mt-4 text-red-700" role="alert">{trackingError}</p>
+        )}
+        {trackingResult && (
+          <div className="mt-4 rounded-lg bg-green-50 border border-green-200 p-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+              <p><strong>{t('Ticket:', 'तिकीट:')}</strong> {trackingResult.complaint_number}</p>
+              <p><strong>{t('Status:', 'स्थिती:')}</strong> {trackingResult.status}</p>
+              <p className="md:col-span-2"><strong>{t('Subject:', 'विषय:')}</strong> {trackingResult.subject}</p>
+              {trackingResult.resolution_note && (
+                <p className="md:col-span-2"><strong>{t('Resolution:', 'निराकरण:')}</strong> {trackingResult.resolution_note}</p>
+              )}
+              <p><strong>{t('Submitted:', 'नोंदवले:')}</strong> {new Date(trackingResult.created_at).toLocaleDateString('en-IN')}</p>
+              <p><strong>{t('Updated:', 'अपडेट:')}</strong> {new Date(trackingResult.updated_at).toLocaleDateString('en-IN')}</p>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Grievance Form */}
