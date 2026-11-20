@@ -26,6 +26,12 @@ const staticPages: SearchResult[] = [
   { title: 'Photo Gallery and Videos', description: 'Village events, development works, photos, and videos.', page: 'gallery', type: 'Page' },
   { title: 'Gram Sabha Meetings', description: 'Meeting agendas, decisions, attendance, and minutes.', page: 'gram-sabha', type: 'Page' },
   { title: 'Budget and Audit Reports', description: 'Financial transparency documents and reports.', page: 'budget', type: 'Page' },
+  { title: 'Village Infrastructure and Facilities', description: 'Water, roads, health, education, safety, and public facilities.', page: 'infrastructure', type: 'Page' },
+  { title: 'Culture and Heritage', description: 'Village culture, traditions, heritage, festivals, and identity.', page: 'culture', type: 'Page' },
+  { title: 'Employment and Skills', description: 'Jobs, SHGs, MSMEs, training, and livelihood support.', page: 'employment', type: 'Page' },
+  { title: 'Education and Youth', description: 'Schools, scholarships, career guidance, sports, and youth programs.', page: 'education', type: 'Page' },
+  { title: 'Environment and Sustainability', description: 'Plantation, waste management, water conservation, and green programs.', page: 'environment', type: 'Page' },
+  { title: 'Volunteer and Collaboration', description: 'Volunteer participation, NGOs, partners, and collaboration opportunities.', page: 'volunteer', type: 'Page' },
   { title: 'Right to Information', description: 'Submit an RTI application online.', page: 'rti', type: 'Page' },
 ];
 

@@ -20,6 +20,12 @@ const pages = [
   '/rti',
   '/transparency/gram-sabha',
   '/transparency/budget',
+  '/development/infrastructure',
+  '/our-village/culture',
+  '/employment/skills',
+  '/education/youth',
+  '/environment/sustainability',
+  '/contact/volunteer',
 ];
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
