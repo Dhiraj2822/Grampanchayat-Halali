@@ -1390,9 +1390,6 @@ const CertificateFormsPage: React.FC<CertificateFormsPageProps> = ({ language, o
                       if (onNavigate) {
                         onNavigate('certificate', { type: cert.id });
                       }
-                      // Update browser history
-                      const newUrl = `/forms/${cert.id}`;
-                      window.history.pushState({ certificateType: cert.id }, '', newUrl);
                     }}
                     className={`p-4 rounded-lg border-2 transition-all text-left ${
                       selectedType === cert.id

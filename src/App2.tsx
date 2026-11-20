@@ -284,9 +284,27 @@ function App() {
     }
     
     // Update browser history
-    window.history.pushState({ page, params }, '', newUrl);
+    const previousState = window.history.state;
+    window.history.pushState(
+      {
+        page,
+        params,
+        previousPage: previousState?.page || currentPage,
+      },
+      '',
+      newUrl
+    );
     
     setUrlParams(params || {});
+  };
+
+  const goBack = () => {
+    const previousPage = window.history.state?.previousPage;
+    if (previousPage && previousPage !== currentPage) {
+      window.history.back();
+      return;
+    }
+    updatePage('home');
   };
 
   // Update HTML lang attribute and dir when language changes
@@ -473,7 +491,7 @@ function App() {
     
     const BackButton = () => (
       <button
-        onClick={() => updatePage('home')}
+        onClick={goBack}
         className="mb-6 flex items-center gap-2 text-green-700 hover:text-green-800 font-semibold text-lg"
       >
         ← {t('Back to Home', 'मुख्यपृष्ठावर परत')}
@@ -617,12 +635,10 @@ function App() {
             <Suspense fallback={<LoadingSpinner />}>
               <CertificateFormsPage 
                 language={language} 
-                onBack={() => updatePage('home')} 
+                onBack={goBack}
                 onNavigate={(page, params) => {
                   if (page === 'certificate' && params?.type) {
-                    // Update URL when certificate type is selected
-                    window.history.pushState({ page, params }, '', `/forms/${params.type}`);
-                    setUrlParams(params);
+                    updatePage('certificates', params);
                   } else {
                     updatePage(page);
                   }
@@ -645,7 +661,7 @@ function App() {
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
             <Suspense fallback={<LoadingSpinner />}>
-              <GramPanchayatDevelopmentPlanPage language={language} onBack={() => updatePage('home')} />
+              <GramPanchayatDevelopmentPlanPage language={language} onBack={goBack} />
             </Suspense>
           </div>
         );
@@ -653,7 +669,7 @@ function App() {
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
             <Suspense fallback={<LoadingSpinner />}>
-              <TendersPage language={language} onBack={() => updatePage('home')} />
+              <TendersPage language={language} onBack={goBack} />
             </Suspense>
           </div>
         );
@@ -661,7 +677,7 @@ function App() {
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
             <Suspense fallback={<LoadingSpinner />}>
-              <RTIPage language={language} onBack={() => updatePage('home')} />
+              <RTIPage language={language} onBack={goBack} />
             </Suspense>
           </div>
         );
@@ -669,7 +685,7 @@ function App() {
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
             <Suspense fallback={<LoadingSpinner />}>
-              <GramSabhaPage language={language} onBack={() => updatePage('home')} />
+              <GramSabhaPage language={language} onBack={goBack} />
             </Suspense>
           </div>
         );
@@ -677,7 +693,7 @@ function App() {
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
             <Suspense fallback={<LoadingSpinner />}>
-              <BudgetPage language={language} onBack={() => updatePage('home')} />
+              <BudgetPage language={language} onBack={goBack} />
             </Suspense>
           </div>
         );
@@ -696,7 +712,7 @@ function App() {
                     : 'BPL list information is only available to administrators.'}
                 </p>
                 <button
-                  onClick={() => updatePage('home')}
+                  onClick={goBack}
                   className="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
                 >
                   {language === 'mr' ? 'मुख्यपृष्ठावर परत' : 'Back to Home'}
@@ -708,50 +724,50 @@ function App() {
         return (
           <div className="max-w-7xl mx-auto px-4 py-8">
             <Suspense fallback={<LoadingSpinner />}>
-              <BPLListPage language={language} onBack={() => updatePage('home')} />
+              <BPLListPage language={language} onBack={goBack} />
             </Suspense>
           </div>
         );
       case 'login':
         return (
           <Suspense fallback={<LoadingSpinner message="Loading login page..." />}>
-            <UserLogin language={language} onNavigate={updatePage} />
+            <UserLogin language={language} onNavigate={updatePage} onBack={goBack} />
           </Suspense>
         );
       case 'infrastructure':
         return (
           <Suspense fallback={<LoadingSpinner message="Loading infrastructure..." />}>
-            <InfrastructurePage language={language} onBack={() => updatePage('home')} />
+            <InfrastructurePage language={language} onBack={goBack} />
           </Suspense>
         );
       case 'culture':
         return (
           <Suspense fallback={<LoadingSpinner />}>
-            <CommunityModulePage language={language} section="culture" onBack={() => updatePage('home')} />
+            <CommunityModulePage language={language} section="culture" onBack={goBack} />
           </Suspense>
         );
       case 'employment':
         return (
           <Suspense fallback={<LoadingSpinner />}>
-            <CommunityModulePage language={language} section="employment" onBack={() => updatePage('home')} />
+            <CommunityModulePage language={language} section="employment" onBack={goBack} />
           </Suspense>
         );
       case 'education':
         return (
           <Suspense fallback={<LoadingSpinner />}>
-            <CommunityModulePage language={language} section="education" onBack={() => updatePage('home')} />
+            <CommunityModulePage language={language} section="education" onBack={goBack} />
           </Suspense>
         );
       case 'environment':
         return (
           <Suspense fallback={<LoadingSpinner />}>
-            <CommunityModulePage language={language} section="environment" onBack={() => updatePage('home')} />
+            <CommunityModulePage language={language} section="environment" onBack={goBack} />
           </Suspense>
         );
       case 'volunteer':
         return (
           <Suspense fallback={<LoadingSpinner />}>
-            <CommunityModulePage language={language} section="volunteer" onBack={() => updatePage('home')} />
+            <CommunityModulePage language={language} section="volunteer" onBack={goBack} />
           </Suspense>
         );
       case 'search':
