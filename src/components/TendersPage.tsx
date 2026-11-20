@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { ArrowLeft, FileText, Download } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
+import { triText } from '../lib/i18n';
 
 interface Tender {
   id: string;
@@ -24,8 +25,7 @@ const TendersPage = ({ language, onBack }: TendersPageProps) => {
   const [loading, setLoading] = useState(true);
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
 
-  const t = (en: string, mr: string, hi?: string) =>
-    language === 'mr' ? mr : language === 'hi' ? (hi || en) : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   useEffect(() => {
     fetchTenders();

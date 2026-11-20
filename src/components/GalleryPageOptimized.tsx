@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Calendar, Image as ImageIcon, Play } from 'lucide-react';
 import { Language } from '../types';
 import { supabase } from '../lib/supabase';
+import { triText } from '../lib/i18n';
 
 interface GalleryPageProps {
   language: Language;
@@ -34,7 +35,7 @@ const GalleryPageOptimized = ({ language }: GalleryPageProps) => {
   const [loading, setLoading] = useState(true);
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
 
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   useEffect(() => {
     fetchData();

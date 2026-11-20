@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CreditCard, Home, Droplet, CheckCircle } from 'lucide-react';
 import { Language } from '../types';
+import { triText } from '../lib/i18n';
 
 interface TaxPaymentPageProps {
   language: Language;
@@ -16,7 +17,7 @@ const TaxPaymentPage = ({ language }: TaxPaymentPageProps) => {
   });
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

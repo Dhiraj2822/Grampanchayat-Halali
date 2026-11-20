@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Building2, Calendar, IndianRupee, TrendingUp } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { DevelopmentWork, Language } from '../types';
+import { triText } from '../lib/i18n';
 
 interface DevelopmentWorksPageProps {
   language: Language;
@@ -12,7 +13,7 @@ const DevelopmentWorksPage = ({ language }: DevelopmentWorksPageProps) => {
   const [filter, setFilter] = useState<string>('all');
   const [loading, setLoading] = useState(true);
 
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   useEffect(() => {
     fetchWorks();

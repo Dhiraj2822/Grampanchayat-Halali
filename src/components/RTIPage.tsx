@@ -3,6 +3,7 @@ import { ArrowLeft, FileText, Send, CheckCircle, Clock, MessageSquare } from 'lu
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
 import { useWebsiteSettings } from '../contexts/WebsiteSettingsContext';
+import { triText } from '../lib/i18n';
 
 interface RTIPageProps {
   language: Language;
@@ -23,7 +24,7 @@ const RTIPage = ({ language, onBack }: RTIPageProps) => {
   const [applicationNumber, setApplicationNumber] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

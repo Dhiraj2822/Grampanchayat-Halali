@@ -1,12 +1,14 @@
 import { Users, Home, User, UserCheck } from 'lucide-react';
 import { Language } from '../types';
 import { useWebsiteSettings } from '../contexts/WebsiteSettingsContext';
+import { triText } from '../lib/i18n';
 
 interface Statistic {
   stat_key: string;
   stat_value: string;
   stat_label: string;
   stat_label_mr?: string;
+  stat_label_hi?: string;
   icon_name?: string;
   display_order: number;
 }
@@ -41,6 +43,7 @@ const StatisticsWidgetOptimized = ({ language }: StatisticsWidgetProps) => {
       stat_value: totalPop.toString(),
       stat_label: 'Total Population',
       stat_label_mr: 'एकूण लोकसंख्या',
+      stat_label_hi: 'कुल जनसंख्या',
       display_order: 1
     },
     {
@@ -48,6 +51,7 @@ const StatisticsWidgetOptimized = ({ language }: StatisticsWidgetProps) => {
       stat_value: families,
       stat_label: 'Total Families',
       stat_label_mr: 'एकूण कुटुंबे',
+      stat_label_hi: 'कुल परिवार',
       display_order: 2
     },
     {
@@ -55,6 +59,7 @@ const StatisticsWidgetOptimized = ({ language }: StatisticsWidgetProps) => {
       stat_value: malePop,
       stat_label: 'Male Population',
       stat_label_mr: 'पुरुष लोकसंख्या',
+      stat_label_hi: 'पुरुष जनसंख्या',
       display_order: 3
     },
     {
@@ -62,9 +67,11 @@ const StatisticsWidgetOptimized = ({ language }: StatisticsWidgetProps) => {
       stat_value: femalePop,
       stat_label: 'Female Population',
       stat_label_mr: 'महिला लोकसंख्या',
+      stat_label_hi: 'महिला जनसंख्या',
       display_order: 4
     }
   ];
+
 
   const getIcon = (statKey: string) => {
     switch (statKey) {
@@ -97,8 +104,7 @@ const StatisticsWidgetOptimized = ({ language }: StatisticsWidgetProps) => {
         return 'from-gray-500 to-gray-600';
     }
   };
-
-  const t = (en: string, mr?: string) => (language === 'mr' && mr ? mr : en);
+  const t = (en: string, mr?: string, hi?: string) => triText(language, en, mr || en, hi);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
@@ -122,7 +128,9 @@ const StatisticsWidgetOptimized = ({ language }: StatisticsWidgetProps) => {
           {/* Label */}
           <div className="p-4 min-h-[76px] flex items-center">
             <h3 className="text-base sm:text-lg font-semibold text-gray-800 group-hover:text-orange-600 transition-colors">
-              {t(stat.stat_label, stat.stat_label_mr)}
+            {language === 'hi'
+              ? (stat.stat_label_hi || triText(language, stat.stat_label, stat.stat_label_mr || stat.stat_label))
+              : t(stat.stat_label, stat.stat_label_mr)}
             </h3>
           </div>
         </div>

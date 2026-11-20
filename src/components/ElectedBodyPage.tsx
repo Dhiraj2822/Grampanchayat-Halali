@@ -3,6 +3,7 @@ import { Phone, Mail, MapPin } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { ElectedBody, Language } from '../types';
 import { useWebsiteSettings } from '../contexts/WebsiteSettingsContext';
+import { triText } from '../lib/i18n';
 
 interface ElectedBodyPageProps {
   language: Language;
@@ -13,8 +14,7 @@ const ElectedBodyPage = ({ language }: ElectedBodyPageProps) => {
   const [loading, setLoading] = useState(true);
   const { settings } = useWebsiteSettings();
 
-  const t = (en: string, mr: string, hi?: string) =>
-    language === 'mr' ? mr : language === 'hi' ? (hi || en) : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   // Dynamic village name
   const villageName = language === 'mr'

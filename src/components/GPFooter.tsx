@@ -1,6 +1,7 @@
 import { Phone, Mail, MapPin, Facebook, Twitter, Youtube, ExternalLink, Instagram } from 'lucide-react';
 import { Language } from '../types';
 import { useWebsiteSettings } from '../contexts/WebsiteSettingsContext';
+import { triText } from '../lib/i18n';
 
 interface GPFooterProps {
   language: Language;
@@ -8,8 +9,7 @@ interface GPFooterProps {
 }
 
 const GPFooter = ({ language, onNavigate }: GPFooterProps) => {
-  const t = (en: string, mr: string, hi?: string) =>
-    language === 'mr' ? mr : language === 'hi' ? (hi || en) : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
   const { settings } = useWebsiteSettings();
 
   // Get dynamic values

@@ -4,6 +4,7 @@ import { AlertCircle, CheckCircle, FileText } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
+import { triText } from '../lib/i18n';
 import FileUpload from './FileUpload';
 
 interface CertificateFormsPageProps {
@@ -28,7 +29,7 @@ const CertificateFormsPage: React.FC<CertificateFormsPageProps> = ({ language, o
   // Form data for each certificate type
   const [formData, setFormData] = useState<Record<string, string>>({});
 
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   // Validation helpers
   const validateMobile = (mobile: string): boolean => /^[0-9]{10}$/.test(mobile);

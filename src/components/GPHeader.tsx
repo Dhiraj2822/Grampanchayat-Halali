@@ -4,6 +4,7 @@ import { Home, Users, FileText, Building2, Award, Info, ImageIcon, Phone, LogIn,
 import { Language } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { useWebsiteSettings } from '../contexts/WebsiteSettingsContext';
+import { triText } from '../lib/i18n';
 
 interface GPHeaderProps {
   language: Language;
@@ -62,8 +63,7 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
     }
   };
 
-  const t = (en: string, mr: string, hi?: string) =>
-    language === 'mr' ? mr : language === 'hi' ? (hi || en) : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   const isDesktopViewport = () => window.matchMedia('(min-width: 768px)').matches;
 

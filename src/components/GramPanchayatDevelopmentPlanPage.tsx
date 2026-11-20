@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { ArrowLeft, FileText, Calendar, IndianRupee, CheckCircle, Clock } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
+import { triText } from '../lib/i18n';
 
 interface GPDPProject {
   id: string;
@@ -28,7 +29,7 @@ const GramPanchayatDevelopmentPlanPage = ({ language, onBack }: GramPanchayatDev
   const [selectedYear, setSelectedYear] = useState<string>('2024-25');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   useEffect(() => {
     fetchProjects();

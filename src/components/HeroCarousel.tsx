@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
+import { triText } from '../lib/i18n';
 
 interface CarouselSlide {
   id: string;
@@ -99,7 +100,7 @@ const HeroCarousel = ({ language, onNavigate }: HeroCarouselProps) => {
     goToSlide((currentSlide - 1 + slides.length) % slides.length);
   };
 
-  const t = (en: string, mr: string) => (language === 'mr' ? mr : en);
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   if (loading) {
     return (

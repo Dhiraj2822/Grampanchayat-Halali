@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { Search, FileText, ArrowRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
+import { triText } from '../lib/i18n';
 
 interface SearchPageProps {
   language: Language;
@@ -33,7 +34,7 @@ const SearchPage = ({ language, initialQuery = '', onNavigate }: SearchPageProps
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   useEffect(() => {
     setQuery(initialQuery);

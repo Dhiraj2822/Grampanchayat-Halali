@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Users } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Committee, Language } from '../types';
+import { triText } from '../lib/i18n';
 
 interface CommitteesPageProps {
   language: Language;
@@ -11,7 +12,7 @@ const CommitteesPage = ({ language }: CommitteesPageProps) => {
   const [committees, setCommittees] = useState<Committee[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   useEffect(() => {
     fetchCommittees();

@@ -3,6 +3,7 @@ import { Phone, Mail, MapPin, Clock, AlertCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { ContactInfo, Language } from '../types';
 import { useWebsiteSettings } from '../contexts/WebsiteSettingsContext';
+import { triText } from '../lib/i18n';
 
 interface ContactPageProps {
   language: Language;
@@ -23,7 +24,7 @@ const ContactPage = ({ language }: ContactPageProps) => {
   });
   const { settings } = useWebsiteSettings();
 
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   // Get dynamic values
   const villageName = language === 'mr' 

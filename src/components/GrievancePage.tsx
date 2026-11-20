@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AlertCircle, CheckCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
+import { triText } from '../lib/i18n';
 
 interface GrievancePageProps {
   language: Language;
@@ -32,7 +33,7 @@ const GrievancePage = ({ language }: GrievancePageProps) => {
     location: '',
   });
 
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   const categories = [
     { en: 'Water Supply', mr: 'पाणीपुरवठा' },

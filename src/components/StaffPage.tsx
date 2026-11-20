@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Phone, Mail, MapPin, User } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { GPStaff, Language } from '../types';
+import { triText } from '../lib/i18n';
 
 interface StaffPageProps {
   language: Language;
@@ -11,8 +12,7 @@ const StaffPage = ({ language }: StaffPageProps) => {
   const [staff, setStaff] = useState<GPStaff[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const t = (en: string, mr: string, hi?: string) =>
-    language === 'mr' ? mr : language === 'hi' ? (hi || en) : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   useEffect(() => {
     fetchStaff();

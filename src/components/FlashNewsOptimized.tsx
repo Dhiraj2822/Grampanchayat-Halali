@@ -1,6 +1,7 @@
 import { Bell, AlertCircle, Calendar, FileText } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { FlashNews as FlashNewsType, Language } from '../types';
+import { triText } from '../lib/i18n';
 import { supabase } from '../lib/supabase';
 
 interface FlashNewsProps {
@@ -66,7 +67,7 @@ const FlashNewsOptimized = ({ language }: FlashNewsProps) => {
     }
   };
 
-  const t = (en: string, mr?: string) => language === 'mr' && mr ? mr : en;
+  const t = (en: string, mr?: string, hi?: string) => triText(language, en, mr || en, hi);
 
   if (news.length === 0) {
     return null;
@@ -91,7 +92,11 @@ const FlashNewsOptimized = ({ language }: FlashNewsProps) => {
               </div>
               <div className="flex-1">
                 <p className="text-sm text-gray-600">
-                  {t(item.news_text || '', item.news_text_mr || '')}
+                  {t(
+                    item.news_text || '',
+                    item.news_text_mr || '',
+                    (item as FlashNewsType & { title_hi?: string }).title_hi || ''
+                  )}
                 </p>
               </div>
             </div>

@@ -12,7 +12,9 @@ const SarpanchMessage = ({ language }: SarpanchMessageProps) => {
   // Get dynamic village name
   const villageName = language === 'mr' 
     ? (settings.village_name_mr || settings.village_name || 'गाव')
-    : (settings.village_name || 'Village');
+    : language === 'hi'
+      ? (settings.village_name_hi || settings.village_name || 'ग्राम पंचायत')
+      : (settings.village_name || 'Village');
 
   if (loading) {
     return (
@@ -24,8 +26,16 @@ const SarpanchMessage = ({ language }: SarpanchMessageProps) => {
 
   // Use settings directly instead of fetching from a separate table
   // This ensures consistency with the CMS
-  const sarpanchName = language === 'mr' ? (settings.sarpanch_name_mr || settings.sarpanch_name) : settings.sarpanch_name;
-  const messageText = language === 'mr' ? (settings.sarpanch_message_mr || settings.sarpanch_message) : settings.sarpanch_message;
+  const sarpanchName = language === 'mr'
+    ? (settings.sarpanch_name_mr || settings.sarpanch_name)
+    : language === 'hi'
+      ? (settings.sarpanch_name_hi || settings.sarpanch_name)
+      : settings.sarpanch_name;
+  const messageText = language === 'mr'
+    ? (settings.sarpanch_message_mr || settings.sarpanch_message)
+    : language === 'hi'
+      ? (settings.sarpanch_message_hi || settings.sarpanch_message)
+      : settings.sarpanch_message;
   const photoUrl = settings.sarpanch_photo_url;
 
   if (!messageText) return null;

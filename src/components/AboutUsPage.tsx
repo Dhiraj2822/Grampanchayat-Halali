@@ -1,6 +1,7 @@
 import { Language } from '../types';
 import { useWebsiteSettings } from '../contexts/WebsiteSettingsContext';
 import { MapPin } from 'lucide-react';
+import { triText } from '../lib/i18n';
 
 interface AboutUsPageProps {
   language: Language;
@@ -9,7 +10,7 @@ interface AboutUsPageProps {
 const AboutUsPage = ({ language }: AboutUsPageProps) => {
   const { settings, loading } = useWebsiteSettings();
   
-  const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
   
   // Helper to get setting value with language
   const getSetting = (

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Search, FileText, DollarSign, Calendar, User, MapPin, AlertCircle, CheckCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
+import { triText } from '../lib/i18n';
 
 interface PropertyTaxRecord {
   id: string;
@@ -40,7 +41,7 @@ const TaxCheckPage = ({ language }: TaxCheckPageProps) => {
   const [waterData, setWaterData] = useState<WaterTaxRecord | null>(null);
   const [error, setError] = useState('');
 
-  const t = (en: string, mr: string) => (language === 'mr' ? mr : en);
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();

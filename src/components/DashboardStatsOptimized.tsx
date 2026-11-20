@@ -3,6 +3,7 @@ import { Users, TrendingUp, FileCheck, Building } from 'lucide-react';
 import { Language } from '../types';
 import { useWebsiteSettings } from '../contexts/WebsiteSettingsContext';
 import { supabase } from '../lib/supabase';
+import { triText } from '../lib/i18n';
 
 interface DashboardStatsProps {
   language: Language;
@@ -44,8 +45,7 @@ interface Achievement {
 }
 
 const DashboardStats = ({ language }: DashboardStatsProps) => {
-  const t = (en: string, mr: string, hi?: string) =>
-    language === 'mr' ? mr : language === 'hi' ? (hi || en) : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
   const { settings } = useWebsiteSettings();
   const [dynamicStats, setDynamicStats] = useState({
     works: null as number | null,

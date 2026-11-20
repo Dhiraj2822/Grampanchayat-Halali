@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Download, FileText } from 'lucide-react';
 import { Language } from '../types';
 import { supabase } from '../lib/supabase';
+import { triText } from '../lib/i18n';
 
 interface DownloadItem {
   id: string;
@@ -16,8 +17,7 @@ interface FormsPageProps {
 }
 
 const FormsPage = ({ language }: FormsPageProps) => {
-  const t = (en: string, mr: string, hi?: string) =>
-    language === 'mr' ? mr : language === 'hi' ? (hi || en) : en;
+  const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
   const [forms, setForms] = useState<DownloadItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');

@@ -6,6 +6,7 @@ import HeroCarousel from './components/HeroCarousel';
 import { useAuth } from './contexts/AuthContext';
 import { useWebsiteSettings } from './contexts/WebsiteSettingsContext';
 import { Language } from './types';
+import { triText } from './lib/i18n';
 
 // Lazy load heavy components for better performance
 const DashboardStats = lazy(() => import('./components/DashboardStatsOptimized'));
@@ -448,7 +449,7 @@ function App() {
 
   // Simple router - in production use React Router
   const renderPage = () => {
-    const t = (en: string, mr: string) => language === 'mr' ? mr : en;
+    const t = (en: string, mr: string, hi?: string) => triText(language, en, mr, hi);
     
     const BackButton = () => (
       <button
