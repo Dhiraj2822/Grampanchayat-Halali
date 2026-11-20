@@ -2,14 +2,17 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Mail, Lock, UserPlus, User } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { Language } from '../types';
 
 interface UserLoginProps {
-  isMarathi: boolean;
+  language: Language;
   onNavigate: (page: string) => void;
 }
 
-const UserLogin: React.FC<UserLoginProps> = ({ isMarathi, onNavigate }) => {
+const UserLogin: React.FC<UserLoginProps> = ({ language, onNavigate }) => {
   const { signIn, signUp } = useAuth();
+  const t = (en: string, mr: string, hi: string) =>
+    language === 'mr' ? mr : language === 'hi' ? hi : en;
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -62,12 +65,12 @@ const UserLogin: React.FC<UserLoginProps> = ({ isMarathi, onNavigate }) => {
             <UserPlus className="w-10 h-10 text-white" />
           </div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            {isMarathi ? '??????????? ?????' : 'Gram Panchayat Login'}
+            {t('Gram Panchayat Login', 'ग्रामपंचायत लॉगिन', 'ग्राम पंचायत लॉगिन')}
           </h1>
           <p className="text-gray-600">
             {isLogin 
-              ? (isMarathi ? '???? ???? ???? ??' : 'Sign in to your account')
-              : (isMarathi ? '??? ?? ??? ??' : 'Create a new account')
+              ? t('Sign in to your account', 'तुमच्या खात्यात साइन इन करा', 'अपने खाते में साइन इन करें')
+              : t('Create a new account', 'नवीन खाते तयार करा', 'नया खाता बनाएं')
             }
           </p>
         </div>
@@ -83,7 +86,7 @@ const UserLogin: React.FC<UserLoginProps> = ({ isMarathi, onNavigate }) => {
               isLogin ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            {isMarathi ? '????' : 'Login'}
+            {t('Login', 'लॉगिन', 'लॉगिन')}
           </button>
           <button
             onClick={() => {
@@ -95,7 +98,7 @@ const UserLogin: React.FC<UserLoginProps> = ({ isMarathi, onNavigate }) => {
               !isLogin ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            {isMarathi ? '???' : 'Sign Up'}
+            {t('Sign Up', 'नोंदणी', 'साइन अप')}
           </button>
         </div>
 
@@ -120,7 +123,7 @@ const UserLogin: React.FC<UserLoginProps> = ({ isMarathi, onNavigate }) => {
           {!isLogin && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                {isMarathi ? '??? ??' : 'Full Name'}
+                {t('Full Name', 'पूर्ण नाव', 'पूरा नाम')}
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -129,7 +132,7 @@ const UserLogin: React.FC<UserLoginProps> = ({ isMarathi, onNavigate }) => {
                   value={formData.fullName}
                   onChange={(e) => setFormData(prev => ({ ...prev, fullName: e.target.value }))}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder={isMarathi ? '??? ??? ?? ????? ??' : 'Enter your full name'}
+                  placeholder={t('Enter your full name', 'तुमचे पूर्ण नाव टाका', 'अपना पूरा नाम दर्ज करें')}
                   required
                 />
               </div>
@@ -138,7 +141,7 @@ const UserLogin: React.FC<UserLoginProps> = ({ isMarathi, onNavigate }) => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              {isMarathi ? '???' : 'Email'}
+              {t('Email', 'ईमेल', 'ईमेल')}
             </label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -147,7 +150,7 @@ const UserLogin: React.FC<UserLoginProps> = ({ isMarathi, onNavigate }) => {
                 value={formData.email}
                 onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                placeholder={isMarathi ? '??? ??? ??? ????? ??' : 'Enter your email address'}
+                placeholder={t('Enter your email address', 'तुमचा ईमेल पत्ता टाका', 'अपना ईमेल पता दर्ज करें')}
                 required
               />
             </div>
@@ -156,14 +159,14 @@ const UserLogin: React.FC<UserLoginProps> = ({ isMarathi, onNavigate }) => {
           {!isLogin && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                {isMarathi ? '???? ???' : 'Mobile Number'}
+                {t('Mobile Number', 'मोबाइल नंबर', 'मोबाइल नंबर')}
               </label>
               <input
                 type="tel"
                 value={formData.mobile}
                 onChange={(e) => setFormData(prev => ({ ...prev, mobile: e.target.value }))}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                placeholder={isMarathi ? '??? ???? ??? ????? ??' : 'Enter your mobile number'}
+                placeholder={t('Enter your mobile number', 'तुमचा मोबाइल नंबर टाका', 'अपना मोबाइल नंबर दर्ज करें')}
                 required
               />
             </div>
@@ -171,7 +174,7 @@ const UserLogin: React.FC<UserLoginProps> = ({ isMarathi, onNavigate }) => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              {isMarathi ? '?????' : 'Password'}
+              {t('Password', 'पासवर्ड', 'पासवर्ड')}
             </label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -180,7 +183,7 @@ const UserLogin: React.FC<UserLoginProps> = ({ isMarathi, onNavigate }) => {
                 value={formData.password}
                 onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
                 className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                placeholder={isMarathi ? '??? ????? ????? ??' : 'Enter your password'}
+                placeholder={t('Enter your password', 'तुमचा पासवर्ड टाका', 'अपना पासवर्ड दर्ज करें')}
                 required
               />
               <button
@@ -201,12 +204,12 @@ const UserLogin: React.FC<UserLoginProps> = ({ isMarathi, onNavigate }) => {
             {loading ? (
               <div className="flex items-center justify-center">
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                {isMarathi ? '??? ????? ??...' : 'Please wait...'}
+                {t('Please wait...', 'कृपया प्रतीक्षा करा...', 'कृपया प्रतीक्षा करें...')}
               </div>
             ) : (
               isLogin 
-                ? (isMarathi ? '???? ??' : 'Sign In')
-                : (isMarathi ? '?? ??? ??' : 'Create Account')
+                ? t('Sign In', 'लॉगिन करा', 'साइन इन करें')
+                : t('Create Account', 'खाते तयार करा', 'खाता बनाएं')
             )}
           </button>
         </form>
@@ -216,7 +219,7 @@ const UserLogin: React.FC<UserLoginProps> = ({ isMarathi, onNavigate }) => {
             onClick={() => onNavigate('home')}
             className="text-gray-600 hover:text-gray-800 text-sm font-medium transition-colors"
           >
-             {isMarathi ? '???????? ???' : 'Back to Home'}
+             {t('Back to Home', 'मुख्यपृष्ठावर परत', 'मुख्यपृष्ठ पर वापस')}
           </button>
         </div>
       </div>
