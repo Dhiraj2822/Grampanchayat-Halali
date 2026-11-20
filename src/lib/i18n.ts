@@ -1,6 +1,13 @@
 import { Language } from '../types';
 
 const hindiText: Record<string, string> = {
+  'Flash News': 'ताजा समाचार',
+  'Welcome to Digital Village': 'डिजिटल गांव में आपका स्वागत है',
+  'Online Services Available': 'ऑनलाइन सेवाएं उपलब्ध',
+  'Development Projects': 'विकास परियोजनाएं',
+  'Learn More': 'और जानें',
+  'Apply Now': 'अभी आवेदन करें',
+  'View Projects': 'परियोजनाएं देखें',
   'Home': 'मुख्यपृष्ठ',
   'About Us': 'हमारे बारे में',
   'Administration': 'प्रशासन',

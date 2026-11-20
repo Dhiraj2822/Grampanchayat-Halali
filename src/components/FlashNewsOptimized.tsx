@@ -78,7 +78,7 @@ const FlashNewsOptimized = ({ language }: FlashNewsProps) => {
       <div className="flex items-center gap-2 mb-4">
         <Bell className="text-red-500" size={20} />
         <h2 className="text-xl font-bold text-gray-800">
-          {t('Flash News', 'ताज्या बातम्या')}
+          {t('Flash News', 'ताज्या बातम्या', 'ताजा समाचार')}
         </h2>
       </div>
 
@@ -95,7 +95,13 @@ const FlashNewsOptimized = ({ language }: FlashNewsProps) => {
                   {t(
                     item.news_text || '',
                     item.news_text_mr || '',
-                    (item as FlashNewsType & { title_hi?: string }).title_hi || ''
+                    (item as FlashNewsType & {
+                      title_hi?: string;
+                    }).title_hi || ({
+                      'Welcome to Digital Gram Panchayat Portal': 'डिजिटल ग्राम पंचायत पोर्टल में आपका स्वागत है',
+                      'Online certificate services now available': 'ऑनलाइन प्रमाणपत्र सेवाएं अब उपलब्ध हैं',
+                      'Gram Sabha meeting scheduled for next month': 'अगले महीने ग्रामसभा बैठक निर्धारित है',
+                    }[item.news_text || ''] || '')
                   )}
                 </p>
               </div>

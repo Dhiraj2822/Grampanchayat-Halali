@@ -54,21 +54,21 @@ const GPFooter = ({ language, onNavigate }: GPFooterProps) => {
   };
 
   const quickLinks = [
-    { label: t('Home', 'मुख्यपृष्ठ'), path: '/' },
-    { label: t('About Us', 'आमच्याबद्दल'), path: '/about' },
-    { label: t('Administration', 'प्रशासन'), path: '/administration' },
-    { label: t('Citizen Services', 'नागरिक सुविधा'), path: '/services' },
-    { label: t('Development Works', 'विकासकामे'), path: '/development' },
-    { label: t('Schemes', 'योजना'), path: '/schemes' },
+    { label: t('Home', 'मुख्यपृष्ठ', 'मुख्यपृष्ठ'), path: '/' },
+    { label: t('About Us', 'आमच्याबद्दल', 'हमारे बारे में'), path: '/about' },
+    { label: t('Administration', 'प्रशासन', 'प्रशासन'), path: '/administration' },
+    { label: t('Citizen Services', 'नागरिक सुविधा', 'नागरिक सेवाएं'), path: '/services' },
+    { label: t('Development Works', 'विकासकामे', 'विकास कार्य'), path: '/development' },
+    { label: t('Schemes', 'योजना', 'योजनाएं'), path: '/schemes' },
   ];
 
   const importantLinks = [
     // { label: t('Pay Tax Online', 'कर भरा'), path: '/services/pay-tax' },
-    { label: t('Apply for Certificate', 'प्रमाणपत्र'), path: '/services/certificates' },
-    { label: t('Submit Grievance', 'तक्रार नोंदवा'), path: '/services/grievances' },
-    { label: t('RTI', 'माहिती अधिकार'), path: '/transparency/rti' },
-    { label: t('Tenders', 'निविदा'), path: '/development/tenders' },
-    { label: t('Gallery', 'छायाचित्रे'), path: '/gallery' },
+    { label: t('Apply for Certificate', 'प्रमाणपत्र', 'प्रमाणपत्र के लिए आवेदन'), path: '/services/certificates' },
+    { label: t('Submit Grievance', 'तक्रार नोंदवा', 'शिकायत दर्ज करें'), path: '/services/grievances' },
+    { label: t('RTI', 'माहिती अधिकार', 'सूचना का अधिकार'), path: '/transparency/rti' },
+    { label: t('Tenders', 'निविदा', 'निविदाएं'), path: '/development/tenders' },
+    { label: t('Gallery', 'छायाचित्रे', 'गैलरी'), path: '/gallery' },
   ];
 
   const externalLinks = [
@@ -86,12 +86,13 @@ const GPFooter = ({ language, onNavigate }: GPFooterProps) => {
           {/* About Section */}
           <div>
             <h3 className="text-xl font-bold mb-4 border-b-2 border-green-500 pb-2 inline-block">
-              {t('About Us', 'आमच्याबद्दल')}
+              {t('About Us', 'आमच्याबद्दल', 'हमारे बारे में')}
             </h3>
             <p className="text-gray-300 mb-4 leading-relaxed">
               {t(
                 `Gram Panchayat ${villageName} is committed to transparent governance and citizen-centric services through digital innovation.`,
-                `ग्रामपंचायत ${villageName} डिजिटल नवकल्पनाद्वारे पारदर्शक शासन आणि नागरिक-केंद्रित सेवांसाठी वचनबद्ध आहे.`
+                `ग्रामपंचायत ${villageName} डिजिटल नवकल्पनाद्वारे पारदर्शक शासन आणि नागरिक-केंद्रित सेवांसाठी वचनबद्ध आहे.`,
+                `ग्राम पंचायत ${villageName} डिजिटल नवाचार के माध्यम से पारदर्शी शासन और नागरिक-केंद्रित सेवाओं के लिए प्रतिबद्ध है.`
               )}
             </p>
             <div className="flex gap-3">
@@ -116,7 +117,7 @@ const GPFooter = ({ language, onNavigate }: GPFooterProps) => {
                 </a>
               )}
               {!settings.facebook_url && !settings.twitter_url && !settings.youtube_url && !settings.instagram_url && (
-                <span className="text-gray-500 text-sm">{t('Social media links not set', 'सोशल मीडिया लिंक सेट नाहीत')}</span>
+                <span className="text-gray-500 text-sm">{t('Social media links not set', 'सोशल मीडिया लिंक सेट नाहीत', 'सोशल मीडिया लिंक सेट नहीं हैं')}</span>
               )}
             </div>
           </div>
@@ -124,7 +125,7 @@ const GPFooter = ({ language, onNavigate }: GPFooterProps) => {
           {/* Quick Links */}
           <div>
             <h3 className="text-xl font-bold mb-4 border-b-2 border-green-500 pb-2 inline-block">
-              {t('Quick Links', 'द्रुत दुवे')}
+              {t('Quick Links', 'द्रुत दुवे', 'त्वरित लिंक')}
             </h3>
             <ul className="space-y-2">
               {quickLinks.map((link, index) => (
@@ -144,7 +145,7 @@ const GPFooter = ({ language, onNavigate }: GPFooterProps) => {
           {/* Important Services */}
           <div>
             <h3 className="text-xl font-bold mb-4 border-b-2 border-green-500 pb-2 inline-block">
-              {t('Important Services', 'महत्वाच्या सेवा')}
+              {t('Important Services', 'महत्वाच्या सेवा', 'महत्वपूर्ण सेवाएं')}
             </h3>
             <ul className="space-y-2">
               {importantLinks.map((link, index) => (
@@ -164,7 +165,7 @@ const GPFooter = ({ language, onNavigate }: GPFooterProps) => {
           {/* Contact Info */}
           <div>
             <h3 className="text-xl font-bold mb-4 border-b-2 border-green-500 pb-2 inline-block">
-              {t('Contact Us', 'संपर्क करा')}
+              {t('Contact Us', 'संपर्क करा', 'संपर्क करें')}
             </h3>
             <ul className="space-y-3 text-gray-300">
               <li className="flex items-start gap-3">
@@ -172,7 +173,8 @@ const GPFooter = ({ language, onNavigate }: GPFooterProps) => {
                 <span>
                   {officeAddress || t(
                     `Gram Panchayat Office, ${villageName}, ${districtName} - ${settings.pincode || ''}`,
-                    `ग्रामपंचायत कार्यालय, ${villageName}, ${districtName} - ${settings.pincode || ''}`
+                    `ग्रामपंचायत कार्यालय, ${villageName}, ${districtName} - ${settings.pincode || ''}`,
+                    `ग्राम पंचायत कार्यालय, ${villageName}, ${districtName} - ${settings.pincode || ''}`
                   )}
                 </span>
               </li>
@@ -188,7 +190,7 @@ const GPFooter = ({ language, onNavigate }: GPFooterProps) => {
             
             <div className="mt-4 pt-4 border-t border-gray-700">
               <p className="text-sm text-gray-400 mb-2">
-                {t('External Links:', 'बाह्य दुवे:')}
+                {t('External Links:', 'बाह्य दुवे:', 'बाहरी लिंक:')}
               </p>
               <ul className="space-y-1">
                 {externalLinks.map((link, index) => (
@@ -214,21 +216,21 @@ const GPFooter = ({ language, onNavigate }: GPFooterProps) => {
       <div className="bg-black/30 py-4">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
           <div>
-            © 2025 {t(`Gram Panchayat ${villageName}. All rights reserved.`, `ग्रामपंचायत ${villageName}. सर्व हक्क राखीव.`)}
+            © 2025 {t(`Gram Panchayat ${villageName}. All rights reserved.`, `ग्रामपंचायत ${villageName}. सर्व हक्क राखीव.`, `ग्राम पंचायत ${villageName}. सर्वाधिकार सुरक्षित.`)}
           </div>
           <div className="flex gap-6">
             <a href="/privacy" className="hover:text-white transition">
-              {t('Privacy Policy', 'गोपनीयता धोरण')}
+              {t('Privacy Policy', 'गोपनीयता धोरण', 'गोपनीयता नीति')}
             </a>
             <a href="/terms" className="hover:text-white transition">
-              {t('Terms of Use', 'वापराच्या अटी')}
+              {t('Terms of Use', 'वापराच्या अटी', 'उपयोग की शर्तें')}
             </a>
             <a href="/sitemap" className="hover:text-white transition">
-              {t('Sitemap', 'साइटमॅप')}
+              {t('Sitemap', 'साइटमॅप', 'साइटमैप')}
             </a>
           </div>
           <div className="text-xs">
-            {t('Visitor Count:', 'भेट देणारे:')} <span className="font-mono">12,456</span>
+            {t('Visitor Count:', 'भेट देणारे:', 'दर्शन संख्या:')} <span className="font-mono">12,456</span>
           </div>
         </div>
       </div>

@@ -110,7 +110,7 @@ const DashboardStats = ({ language }: DashboardStatsProps) => {
       value: populationValue,
       icon: 'users',
       change: '',
-      description: t('Total village population', 'एकूण गावातील लोकसंख्या'),
+      description: t('Total village population', 'एकूण गावातील लोकसंख्या', 'कुल गांव की जनसंख्या'),
       color: 'blue'
     },
     {
@@ -119,7 +119,7 @@ const DashboardStats = ({ language }: DashboardStatsProps) => {
       value: dynamicStats.works ?? t('Not available', 'उपलब्ध नाही', 'उपलब्ध नहीं'),
       icon: 'building',
       change: '',
-      description: t('Active projects', 'सक्रिय प्रकल्प'),
+      description: t('Active projects', 'सक्रिय प्रकल्प', 'सक्रिय परियोजनाएं'),
       color: 'green'
     },
     {
@@ -128,7 +128,7 @@ const DashboardStats = ({ language }: DashboardStatsProps) => {
       value: dynamicStats.services ?? t('Not available', 'उपलब्ध नाही', 'उपलब्ध नहीं'),
       icon: 'file-check',
       change: '',
-      description: t('Available services', 'उपलब्ध सेवा'),
+      description: t('Available services', 'उपलब्ध सेवा', 'उपलब्ध सेवाएं'),
       color: 'purple'
     },
     {
@@ -137,7 +137,7 @@ const DashboardStats = ({ language }: DashboardStatsProps) => {
       value: dynamicStats.schemes ?? t('Not available', 'उपलब्ध नाही', 'उपलब्ध नहीं'),
       icon: 'trending-up',
       change: '',
-      description: t('Government schemes', 'सरकारी योजना'),
+      description: t('Government schemes', 'सरकारी योजना', 'सरकारी योजनाएं'),
       color: 'orange'
     }
   ];

@@ -9,11 +9,14 @@ interface CarouselSlide {
   slide_order: number;
   title: string;
   title_mr?: string;
+  title_hi?: string;
   subtitle?: string;
   subtitle_mr?: string;
+  subtitle_hi?: string;
   image_url: string;
   button_text?: string;
   button_text_mr?: string;
+  button_text_hi?: string;
   button_link?: string;
   is_active: boolean;
 }
@@ -145,11 +148,27 @@ const HeroCarousel = ({ language, onNavigate }: HeroCarouselProps) => {
           <div className="relative h-full flex items-center justify-center px-4">
             <div className="max-w-4xl mx-auto text-center text-white">
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 drop-shadow-lg">
-                {language === 'mr' && slide.title_mr ? slide.title_mr : slide.title}
+                {language === 'mr'
+                  ? (slide.title_mr || slide.title)
+                  : language === 'hi'
+                    ? (slide.title_hi || {
+                        'Welcome to Digital Village': 'डिजिटल गांव में आपका स्वागत है',
+                        'Online Services Available': 'ऑनलाइन सेवाएं उपलब्ध',
+                        'Development Projects': 'विकास परियोजनाएं',
+                      }[slide.title] || slide.title)
+                    : slide.title}
               </h2>
               {slide.subtitle && (
                 <p className="text-lg md:text-xl lg:text-2xl mb-8 opacity-90 drop-shadow-md">
-                  {language === 'mr' && slide.subtitle_mr ? slide.subtitle_mr : slide.subtitle}
+                  {language === 'mr'
+                    ? (slide.subtitle_mr || slide.subtitle)
+                    : language === 'hi'
+                      ? (slide.subtitle_hi || {
+                          'Experience transparent governance and digital services': 'पारदर्शी शासन और डिजिटल सेवाओं का अनुभव लें',
+                          'Apply for certificates and services from home': 'घर बैठे प्रमाणपत्र और सेवाओं के लिए आवेदन करें',
+                          'Track ongoing development works in real-time': 'चल रहे विकास कार्यों की वास्तविक समय में जानकारी देखें',
+                        }[slide.subtitle] || slide.subtitle)
+                      : slide.subtitle}
                 </p>
               )}
               {slide.button_link && slide.button_text && (
@@ -166,7 +185,15 @@ const HeroCarousel = ({ language, onNavigate }: HeroCarouselProps) => {
                   }}
                   className="inline-block bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold text-lg hover:bg-orange-50 transition-colors shadow-lg cursor-pointer"
                 >
-                  {language === 'mr' && slide.button_text_mr ? slide.button_text_mr : slide.button_text}
+                  {language === 'mr'
+                    ? (slide.button_text_mr || slide.button_text)
+                    : language === 'hi'
+                      ? (slide.button_text_hi || {
+                          'Learn More': 'और जानें',
+                          'Apply Now': 'अभी आवेदन करें',
+                          'View Projects': 'परियोजनाएं देखें',
+                        }[slide.button_text] || slide.button_text)
+                      : slide.button_text}
                 </button>
               )}
             </div>

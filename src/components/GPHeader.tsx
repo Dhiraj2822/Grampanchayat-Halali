@@ -175,7 +175,13 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
       <div className="py-2 px-4" style={{ background: accentColor }}>
         <div className="max-w-7xl mx-auto flex justify-between items-center text-sm">
           <div className="flex items-center gap-4">
-            <span className="hidden md:inline">{t(`Welcome to Digital ${villageName}`, `डिजिटल ${villageName} मध्ये आपले स्वागत आहे`)}</span>
+            <span className="hidden md:inline">
+              {t(
+                `Welcome to Digital ${villageName}`,
+                `डिजिटल ${villageName} मध्ये आपले स्वागत आहे`,
+                `डिजिटल ${villageName} में आपका स्वागत है`
+              )}
+            </span>
           </div>
           <div className="flex items-center gap-4">
             <form
@@ -328,10 +334,14 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
             />
             <div>
               <h1 className="text-2xl md:text-3xl font-bold">
-                {t(`Gram Panchayat ${villageName}`, `ग्रामपंचायत ${villageName}`)}
+                {t(`Gram Panchayat ${villageName}`, `ग्रामपंचायत ${villageName}`, `ग्राम पंचायत ${villageName}`)}
               </h1>
               <p className="text-sm text-green-100">
-                {t(`District: ${districtName} | Taluka: ${talukaName}`, `जिल्हा: ${districtName} | तालुका: ${talukaName}`)}
+                {t(
+                  `District: ${districtName} | Taluka: ${talukaName}`,
+                  `जिल्हा: ${districtName} | तालुका: ${talukaName}`,
+                  `जिला: ${districtName} | तहसील: ${talukaName}`
+                )}
               </p>
             </div>
           </div>
