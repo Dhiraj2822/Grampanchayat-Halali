@@ -34,6 +34,7 @@ const BudgetPage = lazy(() => import('./components/BudgetPage'));
 const BPLListPage = lazy(() => import('./components/BPLListPage'));
 const SearchPage = lazy(() => import('./components/SearchPage'));
 const InfrastructurePage = lazy(() => import('./components/InfrastructurePage'));
+const CommunityModulePage = lazy(() => import('./components/CommunityModulePage'));
 const UserLogin = lazy(() => import('./components/UserLogin'));
 const UserDashboard = lazy(() => import('./components/UserDashboard'));
 const AdminDashboard = lazy(() => import('./components/AdminDashboard'));
@@ -141,6 +142,11 @@ function App() {
     'login': 'login',
     'search': 'search',
     'infrastructure': 'infrastructure',
+    'culture': 'culture',
+    'employment': 'employment',
+    'education': 'education',
+    'environment': 'environment',
+    'volunteer': 'volunteer',
     'my-dashboard': 'my-dashboard',
     'admin-dashboard': 'admin-dashboard',
     'super-admin-dashboard': 'super-admin-dashboard',
@@ -168,6 +174,11 @@ function App() {
     '/gallery/photos': 'gallery',
     '/gallery/videos': 'gallery',
     '/development/infrastructure': 'infrastructure',
+    '/our-village/culture': 'culture',
+    '/employment/skills': 'employment',
+    '/education/youth': 'education',
+    '/environment/sustainability': 'environment',
+    '/contact/volunteer': 'volunteer',
   };
 
   // Parse the current URL without pushing a second history entry.
@@ -250,6 +261,11 @@ function App() {
     'login': '/login',
     'search': '/search',
     'infrastructure': '/development/infrastructure',
+    'culture': '/our-village/culture',
+    'employment': '/employment/skills',
+    'education': '/education/youth',
+    'environment': '/environment/sustainability',
+    'volunteer': '/contact/volunteer',
     'my-dashboard': '/my-dashboard',
     'admin-dashboard': '/admin-dashboard',
     'super-admin-dashboard': '/super-admin-dashboard',
@@ -706,6 +722,36 @@ function App() {
         return (
           <Suspense fallback={<LoadingSpinner message="Loading infrastructure..." />}>
             <InfrastructurePage language={language} onBack={() => updatePage('home')} />
+          </Suspense>
+        );
+      case 'culture':
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <CommunityModulePage language={language} section="culture" onBack={() => updatePage('home')} />
+          </Suspense>
+        );
+      case 'employment':
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <CommunityModulePage language={language} section="employment" onBack={() => updatePage('home')} />
+          </Suspense>
+        );
+      case 'education':
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <CommunityModulePage language={language} section="education" onBack={() => updatePage('home')} />
+          </Suspense>
+        );
+      case 'environment':
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <CommunityModulePage language={language} section="environment" onBack={() => updatePage('home')} />
+          </Suspense>
+        );
+      case 'volunteer':
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <CommunityModulePage language={language} section="volunteer" onBack={() => updatePage('home')} />
           </Suspense>
         );
       case 'search':

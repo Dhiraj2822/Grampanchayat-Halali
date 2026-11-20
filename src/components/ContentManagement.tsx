@@ -186,6 +186,22 @@ const tableFields: Record<string, { name: string; type: string; required?: boole
     { name: 'display_order', type: 'number' },
     { name: 'is_active', type: 'boolean' },
   ],
+  'cms_community_entries': [
+    { name: 'section', type: 'select', required: true, options: ['culture', 'employment', 'education', 'environment', 'volunteer'] },
+    { name: 'title', type: 'text', required: true },
+    { name: 'title_mr', type: 'text' },
+    { name: 'title_hi', type: 'text' },
+    { name: 'description', type: 'textarea' },
+    { name: 'description_mr', type: 'textarea' },
+    { name: 'description_hi', type: 'textarea' },
+    { name: 'category', type: 'text' },
+    { name: 'address', type: 'textarea' },
+    { name: 'phone', type: 'text' },
+    { name: 'external_url', type: 'url' },
+    { name: 'image_url', type: 'image_upload' },
+    { name: 'display_order', type: 'number' },
+    { name: 'is_active', type: 'boolean' },
+  ],
   'cms_infrastructure_facilities': [
     { name: 'facility_name', type: 'text', required: true },
     { name: 'facility_name_mr', type: 'text' },
@@ -242,6 +258,7 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
   const [progressMetrics, setProgressMetrics] = useState<any[]>([]);
   const [achievements, setAchievements] = useState<any[]>([]);
   const [infrastructureFacilities, setInfrastructureFacilities] = useState<any[]>([]);
+  const [communityEntries, setCommunityEntries] = useState<any[]>([]);
 
   const [editingItem, setEditingItem] = useState<any>(null);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -335,6 +352,9 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
           break;
         case 'infrastructure':
           await loadInfrastructureFacilities();
+          break;
+        case 'community':
+          await loadCommunityEntries();
           break;
       }
     } catch (error) {
@@ -499,6 +519,15 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
       .select('*')
       .order('display_order');
     if (!error && data) setInfrastructureFacilities(data);
+  };
+
+  const loadCommunityEntries = async () => {
+    const { data, error } = await supabase
+      .from('cms_community_entries')
+      .select('*')
+      .order('section')
+      .order('display_order');
+    if (!error && data) setCommunityEntries(data);
   };
 
   const loadForms = async () => {
@@ -1968,6 +1997,7 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
                     { id: 'village-progress', name: 'Village Progress Metrics', icon: Building },
                     { id: 'village-achievements', name: 'Top Achievements', icon: Award },
                     { id: 'infrastructure', name: 'Infrastructure & Facilities', icon: MapPin },
+                    { id: 'community', name: 'Community Information', icon: Users },
                   ].map((item) => {
                     const Icon = item.icon;
                     return (
@@ -2016,6 +2046,7 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
                 {activeSection === 'village-progress' && renderDataTable(progressMetrics, ['metric_key', 'label', 'metric_value', 'metric_unit', 'display_order', 'is_active'], 'cms_village_progress_metrics')}
                 {activeSection === 'village-achievements' && renderDataTable(achievements, ['title', 'year', 'display_order', 'is_active'], 'cms_village_achievements')}
                 {activeSection === 'infrastructure' && renderDataTable(infrastructureFacilities, ['facility_name', 'category', 'phone', 'status', 'display_order', 'is_active'], 'cms_infrastructure_facilities')}
+                {activeSection === 'community' && renderDataTable(communityEntries, ['section', 'title', 'category', 'phone', 'display_order', 'is_active'], 'cms_community_entries')}
               </div>
             )}
           </div>

@@ -89,6 +89,7 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
       icon: Info,
       submenu: [
         { label: t('History', 'इतिहास', 'इतिहास'), path: '/about/history' },
+        { label: t('Culture & Heritage', 'संस्कृती आणि वारसा', 'संस्कृति और विरासत'), path: '/our-village/culture' },
         { label: t('Geography', 'भूगोल', 'भूगोल'), path: '/about/geography' },
         { label: t('Demographics', 'लोकसंख्या', 'जनसांख्यिकी'), path: '/about/demographics' },
         { label: t('Village Map', 'गावाचा नकाशा', 'गांव का नक्शा'), path: '/about/map' },
@@ -122,6 +123,9 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
       icon: Building2,
       submenu: [
         { label: t('Works List', 'कामांची यादी', 'कार्य सूची'), path: '/development/works' },
+        { label: t('Employment & Skills', 'रोजगार आणि कौशल्य', 'रोजगार और कौशल'), path: '/employment/skills' },
+        { label: t('Education & Youth', 'शिक्षण आणि युवक', 'शिक्षा और युवा'), path: '/education/youth' },
+        { label: t('Environment & Sustainability', 'पर्यावरण आणि शाश्वतता', 'पर्यावरण और स्थिरता'), path: '/environment/sustainability' },
         { label: t('GPDP', 'ग्रामपंचायत विकास योजना', 'ग्राम पंचायत विकास योजना'), path: '/development/gpdp' },
         { label: t('Infrastructure & Facilities', 'पायाभूत सुविधा', 'बुनियादी सुविधाएं'), path: '/development/infrastructure' },
         { label: t('Tenders', 'निविदा', 'निविदाएं'), path: '/development/tenders' },
@@ -132,6 +136,7 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
       label: t('Schemes', 'योजना'),
       icon: Award,
       submenu: [
+        { label: t('Volunteer & Collaboration', 'स्वयंसेवा आणि सहकार्य', 'स्वयंसेवा और सहयोग'), path: '/contact/volunteer' },
         { label: t('Central Schemes', 'केंद्र सरकारच्या योजना', 'केंद्र सरकार की योजनाएं'), path: '/schemes/central' },
         { label: t('State Schemes', 'राज्य सरकारच्या योजना', 'राज्य सरकार की योजनाएं'), path: '/schemes/state' },
         { label: t('Beneficiaries', 'लाभार्थी यादी', 'लाभार्थी सूची'), path: '/schemes/beneficiaries' },
@@ -450,6 +455,16 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
                               handleNavigation('gallery');
                             } else if (subItem.path?.startsWith('/about/')) {
                               handleNavigation('about');
+                            } else if (subItem.path === '/our-village/culture') {
+                              handleNavigation('culture');
+                            } else if (subItem.path === '/employment/skills') {
+                              handleNavigation('employment');
+                            } else if (subItem.path === '/education/youth') {
+                              handleNavigation('education');
+                            } else if (subItem.path === '/environment/sustainability') {
+                              handleNavigation('environment');
+                            } else if (subItem.path === '/contact/volunteer') {
+                              handleNavigation('volunteer');
                             }
                           }}
                           className="w-full text-left block px-6 py-3 hover:bg-green-50 transition border-b border-gray-100 last:border-0"
