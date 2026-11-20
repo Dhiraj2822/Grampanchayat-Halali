@@ -51,8 +51,10 @@ $$;
 REVOKE ALL ON FUNCTION public.lookup_grievance_status(text) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.lookup_grievance_status(text) TO anon, authenticated;
 
--- Include the public ticket number in the existing admin view.
-CREATE OR REPLACE VIEW public.admin_open_complaints AS
+-- Replace the existing admin view so PostgreSQL can safely update its column shape.
+DROP VIEW IF EXISTS public.admin_open_complaints;
+
+CREATE VIEW public.admin_open_complaints AS
 SELECT
   c.id,
   c.complaint_number,
