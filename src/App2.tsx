@@ -33,6 +33,7 @@ const GramSabhaPage = lazy(() => import('./components/GramSabhaPage'));
 const BudgetPage = lazy(() => import('./components/BudgetPage'));
 const BPLListPage = lazy(() => import('./components/BPLListPage'));
 const SearchPage = lazy(() => import('./components/SearchPage'));
+const InfrastructurePage = lazy(() => import('./components/InfrastructurePage'));
 const UserLogin = lazy(() => import('./components/UserLogin'));
 const UserDashboard = lazy(() => import('./components/UserDashboard'));
 const AdminDashboard = lazy(() => import('./components/AdminDashboard'));
@@ -139,6 +140,7 @@ function App() {
     'bpl-list': 'bpl-list',
     'login': 'login',
     'search': 'search',
+    'infrastructure': 'infrastructure',
     'my-dashboard': 'my-dashboard',
     'admin-dashboard': 'admin-dashboard',
     'super-admin-dashboard': 'super-admin-dashboard',
@@ -165,6 +167,7 @@ function App() {
     '/transparency/bpl': 'bpl-list',
     '/gallery/photos': 'gallery',
     '/gallery/videos': 'gallery',
+    '/development/infrastructure': 'infrastructure',
   };
 
   // Parse the current URL without pushing a second history entry.
@@ -246,6 +249,7 @@ function App() {
     'bpl-list': '/bpl-list',
     'login': '/login',
     'search': '/search',
+    'infrastructure': '/infrastructure',
     'my-dashboard': '/my-dashboard',
     'admin-dashboard': '/admin-dashboard',
     'super-admin-dashboard': '/super-admin-dashboard',
@@ -696,6 +700,12 @@ function App() {
         return (
           <Suspense fallback={<LoadingSpinner message="Loading login page..." />}>
             <UserLogin language={language} onNavigate={updatePage} />
+          </Suspense>
+        );
+      case 'infrastructure':
+        return (
+          <Suspense fallback={<LoadingSpinner message="Loading infrastructure..." />}>
+            <InfrastructurePage language={language} onBack={() => updatePage('home')} />
           </Suspense>
         );
       case 'search':

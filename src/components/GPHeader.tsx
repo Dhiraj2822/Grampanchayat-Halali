@@ -123,6 +123,7 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
       submenu: [
         { label: t('Works List', 'कामांची यादी', 'कार्य सूची'), path: '/development/works' },
         { label: t('GPDP', 'ग्रामपंचायत विकास योजना', 'ग्राम पंचायत विकास योजना'), path: '/development/gpdp' },
+        { label: t('Infrastructure & Facilities', 'पायाभूत सुविधा', 'बुनियादी सुविधाएं'), path: '/development/infrastructure' },
         { label: t('Tenders', 'निविदा', 'निविदाएं'), path: '/development/tenders' },
       ],
     },
@@ -433,6 +434,8 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
                               handleNavigation('gpdp');
                             } else if (subItem.path === '/development/tenders') {
                               handleNavigation('tenders');
+                            } else if (subItem.path === '/development/infrastructure') {
+                              handleNavigation('infrastructure');
                             } else if (subItem.path === '/transparency/rti') {
                               handleNavigation('rti');
                             } else if (subItem.path === '/transparency/gram-sabha') {

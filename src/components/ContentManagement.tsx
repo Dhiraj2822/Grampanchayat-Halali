@@ -186,6 +186,28 @@ const tableFields: Record<string, { name: string; type: string; required?: boole
     { name: 'display_order', type: 'number' },
     { name: 'is_active', type: 'boolean' },
   ],
+  'cms_infrastructure_facilities': [
+    { name: 'facility_name', type: 'text', required: true },
+    { name: 'facility_name_mr', type: 'text' },
+    { name: 'facility_name_hi', type: 'text' },
+    { name: 'category', type: 'select', required: true, options: ['water', 'roads', 'electricity', 'health', 'education', 'safety', 'sanitation', 'other'] },
+    { name: 'category_mr', type: 'text' },
+    { name: 'category_hi', type: 'text' },
+    { name: 'description', type: 'textarea' },
+    { name: 'description_mr', type: 'textarea' },
+    { name: 'description_hi', type: 'textarea' },
+    { name: 'address', type: 'textarea' },
+    { name: 'address_mr', type: 'textarea' },
+    { name: 'address_hi', type: 'textarea' },
+    { name: 'phone', type: 'text' },
+    { name: 'status', type: 'text' },
+    { name: 'status_mr', type: 'text' },
+    { name: 'status_hi', type: 'text' },
+    { name: 'latitude', type: 'number' },
+    { name: 'longitude', type: 'number' },
+    { name: 'display_order', type: 'number' },
+    { name: 'is_active', type: 'boolean' },
+  ],
 };
 
 const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initialSection }) => {
@@ -219,6 +241,7 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
   const [videoGallery, setVideoGallery] = useState<any[]>([]);
   const [progressMetrics, setProgressMetrics] = useState<any[]>([]);
   const [achievements, setAchievements] = useState<any[]>([]);
+  const [infrastructureFacilities, setInfrastructureFacilities] = useState<any[]>([]);
 
   const [editingItem, setEditingItem] = useState<any>(null);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -309,6 +332,9 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
           break;
         case 'village-achievements':
           await loadVillageAchievements();
+          break;
+        case 'infrastructure':
+          await loadInfrastructureFacilities();
           break;
       }
     } catch (error) {
@@ -465,6 +491,14 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
       .select('*')
       .order('display_order');
     if (!error && data) setAchievements(data);
+  };
+
+  const loadInfrastructureFacilities = async () => {
+    const { data, error } = await supabase
+      .from('cms_infrastructure_facilities')
+      .select('*')
+      .order('display_order');
+    if (!error && data) setInfrastructureFacilities(data);
   };
 
   const loadForms = async () => {
@@ -1933,6 +1967,7 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
                     { id: 'budget', name: 'Budget', icon: Wallet },
                     { id: 'village-progress', name: 'Village Progress Metrics', icon: Building },
                     { id: 'village-achievements', name: 'Top Achievements', icon: Award },
+                    { id: 'infrastructure', name: 'Infrastructure & Facilities', icon: MapPin },
                   ].map((item) => {
                     const Icon = item.icon;
                     return (
@@ -1980,6 +2015,7 @@ const ContentManagement: React.FC<ContentManagementProps> = ({ onNavigate, initi
                 {activeSection === 'budget' && renderDataTable(budgetItems, ['financial_year', 'category', 'head_name', 'budgeted_amount', 'spent_amount', 'is_active'], 'cms_budget_items')}
                 {activeSection === 'village-progress' && renderDataTable(progressMetrics, ['metric_key', 'label', 'metric_value', 'metric_unit', 'display_order', 'is_active'], 'cms_village_progress_metrics')}
                 {activeSection === 'village-achievements' && renderDataTable(achievements, ['title', 'year', 'display_order', 'is_active'], 'cms_village_achievements')}
+                {activeSection === 'infrastructure' && renderDataTable(infrastructureFacilities, ['facility_name', 'category', 'phone', 'status', 'display_order', 'is_active'], 'cms_infrastructure_facilities')}
               </div>
             )}
           </div>
