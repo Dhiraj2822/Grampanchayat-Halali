@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, FileText, IndianRupee, TrendingUp, Download } from 'lucide-react';
+import { FileText, IndianRupee, TrendingUp, Download } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
+import BackButton from './BackButton';
+import PageHeader from './PageHeader';
 import { triText } from '../lib/i18n';
 
 interface BudgetDocument {
@@ -82,27 +84,22 @@ const BudgetPage = ({ language, onBack }: BudgetPageProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-white/90 hover:text-white mb-4 transition"
-          >
-            <ArrowLeft size={20} />
-            <span>{t('Back', 'मागे')}</span>
-          </button>
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">
-            {t('Budget & Audit Reports', 'अर्थसंकल्प व लेखापरीक्षण')}
-          </h1>
-          <p className="text-indigo-100">
-            {t('Financial transparency and accountability documents', 'आर्थिक पारदर्शकता आणि जबाबदारी दस्तऐवज')}
-          </p>
-        </div>
-      </div>
+    <main className="page-container">
+      <PageHeader
+        language={language}
+        title="Budget & Audit Reports"
+        marathiTitle="अर्थसंकल्प व लेखापरीक्षण"
+        hindiTitle="बजट और लेखापरीक्षण रिपोर्ट"
+        description="Financial transparency and accountability documents"
+        marathiDescription="आर्थिक पारदर्शकता आणि जबाबदारी दस्तऐवज"
+        hindiDescription="वित्तीय पारदर्शिता और जवाबदेही दस्तावेज़"
+        icon={<IndianRupee size={28} />}
+        onBack={onBack}
+        BackButton={BackButton}
+        tone="indigo"
+      />
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="mt-8">
         {/* Type Filter */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <div className="flex flex-wrap gap-3">
@@ -265,7 +262,7 @@ const BudgetPage = ({ language, onBack }: BudgetPageProps) => {
           </p>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

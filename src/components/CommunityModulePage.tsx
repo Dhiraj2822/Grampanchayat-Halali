@@ -3,6 +3,8 @@ import { BookOpen, Briefcase, Leaf, Users, HeartHandshake } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
 import { triText } from '../lib/i18n';
+import BackButton from './BackButton';
+import PageHeader from './PageHeader';
 
 interface CommunityModulePageProps {
   language: Language;
@@ -93,22 +95,19 @@ const CommunityModulePage = ({ language, section, onBack }: CommunityModulePageP
         : english;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-gradient-to-r from-emerald-700 to-teal-700 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <button onClick={onBack} className="mb-4 text-white/90 hover:text-white">
-            ← {t('Back', 'मागे', 'वापस')}
-          </button>
-          <div className="flex items-center gap-3">
-            <Icon size={36} />
-            <h1 className="text-3xl md:text-4xl font-bold">
-              {t(config.english, config.marathi, config.hindi)}
-            </h1>
-          </div>
-        </div>
-      </div>
+    <main className="page-container">
+      <PageHeader
+        language={language}
+        title={config.english}
+        marathiTitle={config.marathi}
+        hindiTitle={config.hindi}
+        icon={<Icon size={28} />}
+        onBack={onBack}
+        BackButton={BackButton}
+        tone="emerald"
+      />
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="mt-8">
         {loading ? (
           <div className="text-center py-12 text-gray-600">
             {t('Loading...', 'लोड होत आहे...', 'लोड हो रहा है...')}
@@ -170,7 +169,7 @@ const CommunityModulePage = ({ language, section, onBack }: CommunityModulePageP
           </div>
         )}
       </div>
-    </div>
+    </main>
   );
 };
 

@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, FileText, Calendar, IndianRupee, CheckCircle, Clock } from 'lucide-react';
+import { FileText, Calendar, IndianRupee, CheckCircle, Clock } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
+import BackButton from './BackButton';
+import PageHeader from './PageHeader';
 import { triText } from '../lib/i18n';
 
 interface GPDPProject {
@@ -87,28 +89,23 @@ const GramPanchayatDevelopmentPlanPage = ({ language, onBack }: GramPanchayatDev
   const totalBudget = filteredProjects.reduce((sum, project) => sum + project.estimated_budget, 0);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-green-600 to-green-700 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-white/90 hover:text-white mb-4 transition"
-          >
-            <ArrowLeft size={20} />
-            <span>{t('Back', 'मागे')}</span>
-          </button>
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">
-            {t('Gram Panchayat Development Plan (GPDP)', 'ग्रामपंचायत विकास योजना')}
-          </h1>
-          <p className="text-green-100">
-            {t('Participatory planning for village development', 'गावाच्या विकासासाठी सहभागी नियोजन')}
-          </p>
-        </div>
-      </div>
+    <main className="page-container">
+      <PageHeader
+        language={language}
+        title="Gram Panchayat Development Plan (GPDP)"
+        marathiTitle="ग्रामपंचायत विकास योजना"
+        hindiTitle="ग्राम पंचायत विकास योजना"
+        description="Participatory planning for village development"
+        marathiDescription="गावाच्या विकासासाठी सहभागी नियोजन"
+        hindiDescription="गांव के विकास के लिए सहभागी नियोजन"
+        icon={<FileText size={28} />}
+        onBack={onBack}
+        BackButton={BackButton}
+        tone="green"
+      />
 
       {/* Filters */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className="py-6">
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Year Filter */}
@@ -254,7 +251,7 @@ const GramPanchayatDevelopmentPlanPage = ({ language, onBack }: GramPanchayatDev
           </p>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

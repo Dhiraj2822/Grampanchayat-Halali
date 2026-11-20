@@ -3,6 +3,8 @@ import { Building2, Droplets, MapPin, Phone, ShieldAlert, Zap } from 'lucide-rea
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
 import { triText } from '../lib/i18n';
+import BackButton from './BackButton';
+import PageHeader from './PageHeader';
 
 interface InfrastructureProps {
   language: Language;
@@ -98,30 +100,22 @@ const InfrastructurePage = ({ language, onBack }: InfrastructureProps) => {
         : english;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-gradient-to-r from-cyan-700 to-blue-700 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-white/90 hover:text-white mb-4"
-          >
-            <MapPin size={20} />
-            {t('Back', 'मागे', 'वापस')}
-          </button>
-          <h1 className="text-3xl md:text-4xl font-bold">
-            {t('Village Infrastructure & Facilities', 'गावातील पायाभूत सुविधा', 'गांव की बुनियादी सुविधाएं')}
-          </h1>
-          <p className="mt-2 text-cyan-100">
-            {t(
-              'Water, roads, health, education, safety, and public facilities',
-              'पाणी, रस्ते, आरोग्य, शिक्षण, सुरक्षा आणि सार्वजनिक सुविधा',
-              'जल, सड़क, स्वास्थ्य, शिक्षा, सुरक्षा और सार्वजनिक सुविधाएं'
-            )}
-          </p>
-        </div>
-      </div>
+    <main className="page-container">
+      <PageHeader
+        language={language}
+        title="Village Infrastructure & Facilities"
+        marathiTitle="गावातील पायाभूत सुविधा"
+        hindiTitle="गांव की बुनियादी सुविधाएं"
+        description="Water, roads, health, education, safety, and public facilities"
+        marathiDescription="पाणी, रस्ते, आरोग्य, शिक्षण, सुरक्षा आणि सार्वजनिक सुविधा"
+        hindiDescription="जल, सड़क, स्वास्थ्य, शिक्षा, सुरक्षा और सार्वजनिक सुविधाएं"
+        icon={<Building2 size={28} />}
+        onBack={onBack}
+        BackButton={BackButton}
+        tone="blue"
+      />
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="mt-8">
         {emergencyContacts.length > 0 && (
           <section className="mb-8">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
@@ -235,7 +229,7 @@ const InfrastructurePage = ({ language, onBack }: InfrastructureProps) => {
           </>
         )}
       </div>
-    </div>
+    </main>
   );
 };
 

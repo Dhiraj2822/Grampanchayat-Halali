@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, FileText, Download } from 'lucide-react';
+import { FileText, Download } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
+import BackButton from './BackButton';
+import PageHeader from './PageHeader';
 import { triText } from '../lib/i18n';
 
 interface Tender {
@@ -80,19 +82,18 @@ const TendersPage = ({ language, onBack }: TendersPageProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <div className="flex items-center gap-4 mb-8">
-          <button
-            onClick={onBack}
-            className="p-2 hover:bg-gray-200 rounded-lg transition"
-          >
-            <ArrowLeft size={24} />
-          </button>
-          <h1 className="text-4xl font-bold text-gray-900">
-            {t('Government Tenders', 'सरकारी निविदा')}
-          </h1>
-        </div>
+    <main className="page-container">
+      <PageHeader
+        language={language}
+        title="Government Tenders"
+        marathiTitle="सरकारी निविदा"
+        hindiTitle="सरकारी निविदाएं"
+        icon={<FileText size={28} />}
+        onBack={onBack}
+        BackButton={BackButton}
+        tone="blue"
+      />
+      <div className="mt-8">
 
         {/* Status Filter */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-6">
@@ -210,7 +211,7 @@ const TendersPage = ({ language, onBack }: TendersPageProps) => {
           </div>
         )}
       </div>
-    </div>
+    </main>
   );
 };
 

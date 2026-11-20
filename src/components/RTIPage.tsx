@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { ArrowLeft, FileText, Send, CheckCircle, Clock, MessageSquare } from 'lucide-react';
+import { FileText, Send, CheckCircle, Clock, MessageSquare } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
 import { useWebsiteSettings } from '../contexts/WebsiteSettingsContext';
+import BackButton from './BackButton';
+import PageHeader from './PageHeader';
 import { triText } from '../lib/i18n';
 
 interface RTIPageProps {
@@ -100,27 +102,22 @@ const RTIPage = ({ language, onBack }: RTIPageProps) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-orange-600 to-orange-700 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-white/90 hover:text-white mb-4 transition"
-          >
-            <ArrowLeft size={20} />
-            <span>{t('Back', 'मागे')}</span>
-          </button>
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">
-            {t('Right to Information (RTI)', 'माहिती अधिकार (RTI)')}
-          </h1>
-          <p className="text-orange-100">
-            {t('Submit your RTI application online', 'तुमचा RTI अर्ज ऑनलाइन सादर करा')}
-          </p>
-        </div>
-      </div>
+    <main className="page-container">
+      <PageHeader
+        language={language}
+        title="Right to Information (RTI)"
+        marathiTitle="माहिती अधिकार (RTI)"
+        hindiTitle="सूचना का अधिकार (RTI)"
+        description="Submit your RTI application online"
+        marathiDescription="तुमचा RTI अर्ज ऑनलाइन सादर करा"
+        hindiDescription="अपना RTI आवेदन ऑनलाइन जमा करें"
+        icon={<FileText size={28} />}
+        onBack={onBack}
+        BackButton={BackButton}
+        tone="blue"
+      />
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="mx-auto max-w-4xl px-0 py-8">
         {/* Information Card */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
           <h3 className="text-lg font-semibold text-blue-900 mb-3 flex items-center gap-2">
@@ -300,7 +297,7 @@ const RTIPage = ({ language, onBack }: RTIPageProps) => {
           </p>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

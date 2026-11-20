@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
-import { ArrowLeft, Calendar, Users, FileText, Download } from 'lucide-react';
+import { Calendar, Users, FileText, Download } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Language } from '../types';
 import { triText } from '../lib/i18n';
+import BackButton from './BackButton';
+import PageHeader from './PageHeader';
 
 interface GramSabhaMeeting {
   id: string;
@@ -68,27 +70,22 @@ const GramSabhaPage = ({ language, onBack }: GramSabhaPageProps) => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white py-8">
-        <div className="max-w-7xl mx-auto px-4">
-          <button
-            onClick={onBack}
-            className="flex items-center gap-2 text-white/90 hover:text-white mb-4 transition"
-          >
-            <ArrowLeft size={20} />
-            <span>{t('Back', 'मागे')}</span>
-          </button>
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">
-            {t('Gram Sabha Meetings', 'ग्रामसभा सभा')}
-          </h1>
-          <p className="text-purple-100">
-            {t('Records of village assembly meetings and decisions', 'गाव सभांच्या सभा आणि निर्णयांची नोंद')}
-          </p>
-        </div>
-      </div>
+    <main className="page-container">
+      <PageHeader
+        language={language}
+        title="Gram Sabha Meetings"
+        marathiTitle="ग्रामसभा सभा"
+        hindiTitle="ग्रामसभा बैठकें"
+        description="Records of village assembly meetings and decisions"
+        marathiDescription="गाव सभांच्या सभा आणि निर्णयांची नोंद"
+        hindiDescription="ग्रामसभा बैठक और निर्णयों का विवरण"
+        icon={<Users size={28} />}
+        onBack={onBack}
+        BackButton={BackButton}
+        tone="purple"
+      />
 
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="mt-8">
         {/* Info Card */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
           <h3 className="text-lg font-semibold text-blue-900 mb-3">
@@ -223,7 +220,7 @@ const GramSabhaPage = ({ language, onBack }: GramSabhaPageProps) => {
           </div>
         )}
       </div>
-    </div>
+    </main>
   );
 };
 
