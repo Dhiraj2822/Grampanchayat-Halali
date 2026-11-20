@@ -74,10 +74,10 @@ const SchemesPageOptimized = ({ language }: SchemesPageProps) => {
       {/* Filter Buttons */}
       <div className="flex flex-wrap justify-center gap-4 mb-8">
         {[
-          { id: 'all', name: t('All Schemes', 'सर्व योजना') },
-          { id: 'central', name: t('Central', 'केंद्र') },
-          { id: 'state', name: t('State', 'राज्य') },
-          { id: 'local', name: t('Local', 'स्थानिक') }
+          { id: 'all', name: t('All Schemes', 'सर्व योजना', 'सभी योजनाएं') },
+          { id: 'central', name: t('Central', 'केंद्र', 'केंद्र') },
+          { id: 'state', name: t('State', 'राज्य', 'राज्य') },
+          { id: 'local', name: t('Local', 'स्थानिक', 'स्थानीय') }
         ].map((filterOption) => (
           <button
             key={filterOption.id}

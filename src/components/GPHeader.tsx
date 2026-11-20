@@ -88,10 +88,10 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
       label: t('About Us', 'आमच्याबद्दल'),
       icon: Info,
       submenu: [
-        { label: t('History', 'इतिहास'), path: '/about/history' },
-        { label: t('Geography', 'भूगोल'), path: '/about/geography' },
-        { label: t('Demographics', 'लोकसंख्या'), path: '/about/demographics' },
-        { label: t('Village Map', 'गावाचा नकाशा'), path: '/about/map' },
+        { label: t('History', 'इतिहास', 'इतिहास'), path: '/about/history' },
+        { label: t('Geography', 'भूगोल', 'भूगोल'), path: '/about/geography' },
+        { label: t('Demographics', 'लोकसंख्या', 'जनसांख्यिकी'), path: '/about/demographics' },
+        { label: t('Village Map', 'गावाचा नकाशा', 'गांव का नक्शा'), path: '/about/map' },
       ],
     },
     {
@@ -99,9 +99,9 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
       label: t('Administration', 'प्रशासन'),
       icon: Users,
       submenu: [
-        { label: t('Elected Body', 'निवडून आलेले सदस्य'), path: '/administration/elected-body' },
-        { label: t('Gram Sevak & Staff', 'ग्रामसेवक व कर्मचारी'), path: '/administration/staff' },
-        { label: t('Committees', 'समित्या'), path: '/administration/committees' },
+        { label: t('Elected Body', 'निवडून आलेले सदस्य', 'निर्वाचित सदस्य'), path: '/administration/elected-body' },
+        { label: t('Gram Sevak & Staff', 'ग्रामसेवक व कर्मचारी', 'ग्रामसेवक और कर्मचारी'), path: '/administration/staff' },
+        { label: t('Committees', 'समित्या', 'समितियां'), path: '/administration/committees' },
       ],
     },
     {
@@ -111,9 +111,9 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
       submenu: [
         // { label: t('Pay Tax Online', 'कर भरा'), path: '/services/pay-tax' },
         // Hide 'Apply for Certificates' option for admin or super_admin users
-        ...(profile?.role === 'admin' || profile?.role === 'super_admin' ? [] : [{ label: t('Apply for Certificates', 'प्रमाणपत्रे'), path: '/services/certificates' }]),
-        { label: t('Submit Grievance', 'तक्रारी'), path: '/services/grievances' },
-        { label: t('Download Forms', 'फॉर्म'), path: '/services/forms' },
+        ...(profile?.role === 'admin' || profile?.role === 'super_admin' ? [] : [{ label: t('Apply for Certificates', 'प्रमाणपत्रे', 'प्रमाणपत्र के लिए आवेदन'), path: '/services/certificates' }]),
+        { label: t('Submit Grievance', 'तक्रारी', 'शिकायत दर्ज करें'), path: '/services/grievances' },
+        { label: t('Download Forms', 'फॉर्म', 'फॉर्म डाउनलोड करें'), path: '/services/forms' },
       ],
     },
     {
@@ -121,9 +121,9 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
       label: t('Development', 'विकासकामे'),
       icon: Building2,
       submenu: [
-        { label: t('Works List', 'कामांची यादी'), path: '/development/works' },
-        { label: t('GPDP', 'ग्रामपंचायत विकास योजना'), path: '/development/gpdp' },
-        { label: t('Tenders', 'निविदा'), path: '/development/tenders' },
+        { label: t('Works List', 'कामांची यादी', 'कार्य सूची'), path: '/development/works' },
+        { label: t('GPDP', 'ग्रामपंचायत विकास योजना', 'ग्राम पंचायत विकास योजना'), path: '/development/gpdp' },
+        { label: t('Tenders', 'निविदा', 'निविदाएं'), path: '/development/tenders' },
       ],
     },
     {
@@ -131,9 +131,9 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
       label: t('Schemes', 'योजना'),
       icon: Award,
       submenu: [
-        { label: t('Central Schemes', 'केंद्र सरकारच्या योजना'), path: '/schemes/central' },
-        { label: t('State Schemes', 'राज्य सरकारच्या योजना'), path: '/schemes/state' },
-        { label: t('Beneficiaries', 'लाभार्थी यादी'), path: '/schemes/beneficiaries' },
+        { label: t('Central Schemes', 'केंद्र सरकारच्या योजना', 'केंद्र सरकार की योजनाएं'), path: '/schemes/central' },
+        { label: t('State Schemes', 'राज्य सरकारच्या योजना', 'राज्य सरकार की योजनाएं'), path: '/schemes/state' },
+        { label: t('Beneficiaries', 'लाभार्थी यादी', 'लाभार्थी सूची'), path: '/schemes/beneficiaries' },
       ],
     },
     {
@@ -141,11 +141,11 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
       label: t('Transparency', 'माहिती अधिकार'),
       icon: FileText,
       submenu: [
-        { label: t('RTI', 'माहिती अधिकार'), path: '/transparency/rti' },
-        { label: t('Gram Sabha', 'ग्रामसभा'), path: '/transparency/gram-sabha' },
-        { label: t('Budget & Audit', 'अर्थसंकल्प व लेखापरीक्षण'), path: '/transparency/budget' },
+        { label: t('RTI', 'माहिती अधिकार', 'सूचना का अधिकार'), path: '/transparency/rti' },
+        { label: t('Gram Sabha', 'ग्रामसभा', 'ग्रामसभा'), path: '/transparency/gram-sabha' },
+        { label: t('Budget & Audit', 'अर्थसंकल्प व लेखापरीक्षण', 'बजट और लेखापरीक्षण'), path: '/transparency/budget' },
         ...(profile?.role === 'admin' || profile?.role === 'super_admin'
-          ? [{ label: t('BPL List', 'गरीबी रेषेखालील यादी'), path: '/transparency/bpl' }]
+          ? [{ label: t('BPL List', 'गरीबी रेषेखालील यादी', 'बीपीएल सूची'), path: '/transparency/bpl' }]
           : []),
       ],
     },
