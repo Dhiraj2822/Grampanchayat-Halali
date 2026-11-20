@@ -108,23 +108,25 @@ const GramSabhaPage = ({ language, onBack }: GramSabhaPageProps) => {
         </div>
 
         {/* Year Filter */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <div className="flex flex-wrap gap-3">
-            {years.map(year => (
-              <button
-                key={year}
-                onClick={() => setSelectedYear(year)}
-                className={`px-4 py-2 rounded-lg font-medium transition ${
-                  selectedYear === year
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
-              >
-                {year === 'all' ? t('All Years', 'सर्व वर्षे') : year}
-              </button>
-            ))}
+        {years.length > 1 && (
+          <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div className="flex flex-wrap gap-3">
+              {years.map(year => (
+                <button
+                  key={year}
+                  onClick={() => setSelectedYear(year)}
+                  className={`px-4 py-2 rounded-lg font-medium transition ${
+                    selectedYear === year
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  {year === 'all' ? t('All Years', 'सर्व वर्षे') : year}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Meetings List */}
         {loading ? (

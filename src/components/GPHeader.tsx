@@ -136,6 +136,7 @@ const GPHeader = ({ language, onLanguageChange, onNavigate }: GPHeaderProps) => 
       submenu: [
         { label: t('RTI', 'माहिती अधिकार'), path: '/transparency/rti' },
         { label: t('Gram Sabha', 'ग्रामसभा'), path: '/transparency/gram-sabha' },
+        { label: t('Budget & Audit', 'अर्थसंकल्प व लेखापरीक्षण'), path: '/transparency/budget' },
         ...(profile?.role === 'admin' || profile?.role === 'super_admin'
           ? [{ label: t('BPL List', 'गरीबी रेषेखालील यादी'), path: '/transparency/bpl' }]
           : []),
